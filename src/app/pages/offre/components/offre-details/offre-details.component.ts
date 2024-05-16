@@ -1,24 +1,38 @@
-import { Component, ViewChild } from '@angular/core';
-import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {SlickCarouselComponent, SlickCarouselModule} from 'ngx-slick-carousel';
 // Data Get
-import { details, reviews } from './data';
-import { reviewsModel } from './product-details.model';
+import { details, reviews } from '../../../ecommerce/product-details/data';
+import { reviewsModel } from '../../../ecommerce/product-details/product-details.model';
 // Swiper
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import {ModalDirective, ModalModule} from 'ngx-bootstrap/modal';
 import { HttpClient } from '@angular/common/http';
-import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import {SharedModule} from "../../../../shared/shared.module";
+import {SimplebarAngularModule} from "simplebar-angular";
+import {ActivatedRoute} from "@angular/router";
+import {RatingModule} from "ngx-bootstrap/rating";
+import {DropzoneConfigInterface, DropzoneModule} from "ngx-dropzone-wrapper";
 
 @Component({
-  selector: 'app-product-details',
-  templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  selector: 'app-offre-details',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    ModalModule,
+    SlickCarouselModule,
+    SharedModule,
+    SimplebarAngularModule,
+    DropzoneModule,
+    RatingModule,
+    RatingModule,
+    DropzoneModule
+  ],
+  templateUrl: './offre-details.component.html',
+  styleUrl: './offre-details.component.scss'
 })
-
-// Product Detail Component
-export class ProductDetailsComponent {
-
+export class OffreDetailsComponent implements OnInit{
+  offerId! : string;
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   reviewForm!: UntypedFormGroup;
@@ -34,9 +48,13 @@ export class ProductDetailsComponent {
   @ViewChild('addReview', { static: false }) addReview?: ModalDirective;
   @ViewChild('removeItemModal', { static: false }) removeItemModal?: ModalDirective;
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
-  constructor(private formBuilder: UntypedFormBuilder, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private http: HttpClient) {
+  }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.offerId = params['id'];
+    });
     /**
      * BreadCrumb
      */
@@ -89,7 +107,6 @@ export class ProductDetailsComponent {
     event.target.closest('.swiperlist').classList.add('swiper-slide-thumb-active')
     this.slickModal.slickGoTo(id)
   }
-
 
   public dropzoneConfig: DropzoneConfigInterface = {
     clickable: true,
