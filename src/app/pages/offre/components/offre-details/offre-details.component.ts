@@ -13,6 +13,7 @@ import {SimplebarAngularModule} from "simplebar-angular";
 import {ActivatedRoute} from "@angular/router";
 import {RatingModule} from "ngx-bootstrap/rating";
 import {DropzoneConfigInterface, DropzoneModule} from "ngx-dropzone-wrapper";
+import {OffreService} from "../../service/offre.service";
 
 @Component({
   selector: 'app-offre-details',
@@ -33,6 +34,7 @@ import {DropzoneConfigInterface, DropzoneModule} from "ngx-dropzone-wrapper";
 })
 export class OffreDetailsComponent implements OnInit{
   offerId! : string;
+  offerDetails!: any;
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   reviewForm!: UntypedFormGroup;
@@ -48,7 +50,9 @@ export class OffreDetailsComponent implements OnInit{
   @ViewChild('addReview', { static: false }) addReview?: ModalDirective;
   @ViewChild('removeItemModal', { static: false }) removeItemModal?: ModalDirective;
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
-  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private http: HttpClient,
+              private offreService: OffreService
+  ) {
   }
 
   ngOnInit(): void {
@@ -62,6 +66,7 @@ export class OffreDetailsComponent implements OnInit{
       { label: 'Ecommerce' },
       { label: 'Product Overview', active: true }
     ];
+    this.getOfferDetails();
 
     /**
      * Form Validation
@@ -182,6 +187,26 @@ export class OffreDetailsComponent implements OnInit{
   DeleteReview() {
     this.reviewData.splice(this.deleteId, 1)
     this.removeItemModal?.hide()
+  }
+  getOfferDetails()
+  {
+    this.offreService.getOfferById(this.offerId).subscribe(
+      (offerDetails: any) => {
+        this.offerDetails = offerDetails;
+        console.log("Offer details : ", offerDetails);
+      },
+      (error : any) => {
+        console.error("Error fetching offer details", error);
+      }
+    )
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}/${month}/${day}`;
   }
 
 }
