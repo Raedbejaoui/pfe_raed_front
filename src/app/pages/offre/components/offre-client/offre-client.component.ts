@@ -1,102 +1,120 @@
-import { OffreService } from './../../service/offre.service';
-import { Component, ViewChild } from '@angular/core';
-import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Validators } from 'ngx-editor';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/account/authentification/auth.service';
+import { OffreService } from './../../service/offre.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-offre-client',
   templateUrl: './offre-client.component.html',
-  styleUrl: './offre-client.component.scss'
+  styleUrls: ['./offre-client.component.scss']
 })
-export class OffreClientComponent {
-
+export class OffreClientComponent implements OnInit, OnDestroy {
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
-
-   // dropzone
-   public dropzoneConfig: DropzoneConfigInterface = {
-    clickable: true,
-    addRemoveLinks: true,
-    previewsContainer: false,
-  };
-
-  offreForm!:FormGroup
-  userId: string|null=null;
+  offreForm!: FormGroup;
+  userId: string | null = null;
   listOffres: any;
-
+  offerSubscription: Subscription | undefined;
+  uploadedFiles: any[] = [];
+  uploadProgress: number = 0;
+  uploadedImage: string | null = null;
+  progressValue: number = 0;
+ 
+uploadedImageName: string | null = null; 
+uploadedImageSize: number | null = null; 
   constructor(
-    private formBuilder :FormBuilder ,
-    private authService:AuthService ,
-    private offreService:OffreService 
-  ){
-
-  }
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private offreService: OffreService
+  ) {}
 
   ngOnInit(): void {
     this.authService.retrieveUserFromLocalStorage();
-    this.userId=this.authService.getUserIdFromLocalStorage();
+    this.userId = this.authService.getUserIdFromLocalStorage();
     this.findAll();
     this.offreForm = this.formBuilder.group({
       title: ['', [Validators.required]],
-      deadLine: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      offerStatus:['EN_COURS', [Validators.required]],
+      deadLine: ['', [Validators.required]],
+      image: [null, [Validators.required]]
     });
-
   }
 
-
-  SaveOffre() {  
-    const offreData = this.offreForm.value;
-    console.log('form data ', offreData);
-  
-    if (this.userId !== null && this.offreForm.valid) {
-      this.offreService.addOffer(this.userId, offreData).subscribe(
-        (data) => {
-          console.log('Offre enregistrée avec succès : ', data); 
-          this.findAll();
-        },
-        (error) => {
-          console.error('Une erreur s\'est produite lors de l\'enregistrement de l\'offre : ', error);
-        }
-      );
-      this.showModal?.hide(); 
-      this.offreForm.reset();
-    } else {
+  ngOnDestroy(): void {
+    if (this.offerSubscription) {
+      this.offerSubscription.unsubscribe();
     }
   }
 
-  findAll(){
-    this.offreService.getAllOffers().subscribe(
-      (data) => {
-        this.listOffres=data; 
-        console.log(this.listOffres)
+  SaveOffre(): void {
+    const formData = new FormData();
+    formData.append('title', this.offreForm.get('title')!.value);
+    formData.append('description', this.offreForm.get('description')!.value);
+    formData.append('deadLine', this.offreForm.get('deadLine')!.value);
+    formData.append('image', this.offreForm.get('image')!.value);
+
+    if (this.userId !== null && this.offreForm.valid) {
+      this.offerSubscription = this.offreService.addOffer(this.userId, formData).subscribe({
+        next: (data) => {
+          console.log('Offre enregistrée avec succès : ', data); 
+          this.findAll();
+          this.showModal?.hide();
+          this.offreForm.reset();
+        },
+        error: (error) => {
+          console.error('Une erreur s\'est produite lors de l\'enregistrement de l\'offre : ', error);
+        }
+      });
+    }
+  }
+
+  findAll(): void {
+    this.offerSubscription = this.offreService.getAllOffers().subscribe({
+      next: (data) => {
+        this.listOffres = data; 
+        console.log(this.listOffres);
+      },
+      error: (error) => {
+        console.error('Une erreur s\'est produite lors de la récupération des offres : ', error);
       }
-    )
+    });
   }
 
-  Delete(offreId:any) {
-    this.offreService.deleteOffer(offreId).subscribe(
-     (data) => {
-       this.findAll();
-     }
-
-    )
+  Delete(offreId: any): void {
+    this.offerSubscription = this.offreService.deleteOffer(offreId).subscribe({
+      next: (data) => {
+        this.findAll();
+      },
+      error: (error) => {
+        console.error('Une erreur s\'est produite lors de la suppression de l\'offre : ', error);
+      }
+    });
   }
-  
-  
 
 
-
-  
-
-
-
-
-
-
-
-
+  onFileChange(event: any): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.offreForm.get('image')!.setValue(file);
+      this.uploadProgress = 50;
+      setTimeout(() => {
+        this.uploadProgress = 100;
+        this.uploadedImage = URL.createObjectURL(file);
+      }, 1000); 
+     
+      if (file) {
+        this.uploadedImage = file;
+        this.uploadedImageName = file.name;
+        this.uploadedImageSize = file.size;
+      }
+    }
+  }
+  removeUploadedImage(): void {
+    this.uploadedImage = null;
+    
+  }
+ /*  removeFile(event: any): void {
+    this.uploadedFiles.splice(this.uploadedFiles.indexOf(event), 1);
+  } */
 }

@@ -19,6 +19,7 @@
                                 <th scope="col">Date creation</th>
                                 <th scope="col">Date d'expriration</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -29,6 +30,7 @@
                                 <td>{{offre.creationDate}}</td>
                                 <td>{{offre.deadLine}}</td>
                                 <th scope="col">{{offre.offerStatus}}</th>
+                                <td>{{offre.image}}</td>
                                 <td>
                                     <div dropdown class="dropdown">
                                         <button dropdownToggle class="btn btn-subtle-secondary btn-sm btn-icon">
@@ -36,13 +38,17 @@
                                         </button>
 
                                         <ul *bsDropdownMenu class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" routerLink="/ecommerce/product-details" href="javascript:void(0);"><i class="ph-eye align-middle me-1"></i> View</a></li>
+                                            <li> <a class="dropdown-item" [routerLink]="'/ecommerce/offre-details/' + offre.id" href="javascript:void(0);">
+                                                <i class="ph-eye align-middle me-1"></i> 
+                                                Afficher
+                                                </a></li>
                                             <li><a class="dropdown-item edit-item-btn"><i class="ph-pencil align-middle me-1"></i>
                                                     Edit</a></li>
                                             <li><a class="dropdown-item remove-item-btn" href="javascript:void(0);"  (click)="Delete(offre.id)"><i class="ph-trash align-middle me-1"></i> Remove</a></li>
                                         </ul>
                                     </div>
-                                </td>
+                                </td> 
+                                
                             </tr> 
                         </tbody>
                     </table>
@@ -58,7 +64,7 @@
 </div>
 
 <!--Ajouter offre client-->
-<div class="modal fade" bsModal #showModal="bs-modal">
+<!-- <div class="modal fade" bsModal #showModal="bs-modal">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header px-4 pt-4">
@@ -66,7 +72,7 @@
                 <button type="button" class="btn-close" (click)="showModal.hide()"></button>
             </div>
 
-            <form  [formGroup]="offreForm" >
+            <form [formGroup]="offreForm">
                 <div class="modal-body p-4">
                     <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                     <input type="hidden" id="id-field">
@@ -79,14 +85,39 @@
                         <label for="product-title-input" class="form-label">Titre</label>
                         <input type="text" id="product-title-input" formControlName="title" class="form-control" placeholder="Enter product title" required>
                     </div>
-                    <!-- Image offre   -->
+                     
+                     
                         <div class="mb-3">
-                        <label class="form-label">Images offre</label>
-                        <dropzone class="dropzone" [config]="dropzoneConfig" [message]="'Cliquez pour télécharger.'" ></dropzone>
-
-                      
-                    </div>
-                  
+                            <label class="form-label">Images offre</label>
+                            <dropzone  class="dropzone" [config]="dropzoneConfig" [message]="'Cliquez pour télécharger.'" (success)="onUploadSuccess($event)"></dropzone>
+    
+                            @if (uploadedFiles) {
+                            <ul class="list-unstyled mb-0" id="dropzone-preview">
+                                @for ( file of uploadedFiles; track $index) {
+                                <li class="mt-2" id="dropzone-preview-list">
+                                    <div class="border rounded">
+                                        <div class="d-flex p-2">
+                                            <div class="flex-shrink-0 me-3">
+                                                <div class="avatar-sm bg-light rounded p-2">
+                                                    <img class="img-fluid rounded d-block" [src]="file.dataURL" alt="Dropzone-Image" />
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="pt-1">
+                                                    <h5 class="fs-md mb-1">{{ file.name }}</h5>
+                                                    <p class="fs-sm text-muted mb-0">{{ file.size }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="flex-shrink-0 ms-3">
+                                                <button (click)="removeFile(file)" class="btn btn-sm btn-danger">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            </ul>
+                        } 
+                        </div>
                     <div class="mb-3">
                         <label for="product-stock-input" class="form-label">Date d'expriration</label>
                         <input type="date" id="product-stock-input" class="form-control" formControlName="deadLine" placeholder="Enter product stocks" required>
@@ -100,10 +131,69 @@
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-ghost-danger" (click)="showModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Annuler</button>
-                        <button type="button" class="btn btn-primary" (click)="SaveOffre()">Ajouter</button>
+                        <button type="submit" class="btn btn-primary" (click)="SaveOffre()">
+                            Ajouter
+                          </button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-</div>
+</div> -->
+<div class="modal fade" bsModal #showModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Ajouter une offre</h5>
+          <button type="button" class="btn-close" (click)="showModal.hide()"></button>
+        </div>
+        <form [formGroup]="offreForm" (submit)="SaveOffre()">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="title" class="form-label">Titre</label>
+              <input type="text" id="title" formControlName="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea id="description" formControlName="description" class="form-control" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="deadLine" class="form-label">Date d'expiration</label>
+              <input type="date" id="deadLine" formControlName="deadLine" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <div class="dropzone-container">
+                <input type="file" #fileInput id="image" (change)="onFileChange($event)" class="form-control" style="display: none;" required>
+                <label class="dropzone" for="image">
+                  <span class="upload-text">Cliquez ici pour télécharger</span>
+                  <div class="progress mt-3" *ngIf="uploadProgress > 0 && uploadProgress < 100">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progressValue" aria-valuemin="0" aria-valuemax="100" [style.width.%]="progressValue"></div>
+                      </div>
+                      
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="mb-3" *ngIf="uploadedImage">
+                <div class="uploaded-image-container">
+                  <div class="uploaded-image">
+                    <img [src]="uploadedImage" alt="Uploaded Image" class="img-fluid">&nbsp;
+                    <p>{{ uploadedImageName }}</p>
+                  </div>
+                  <div class="uploaded-image-right">
+                    <button type="button" class="btn btn-danger mt-2" (click)="removeUploadedImage()">Supprimer</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="showModal.hide()">Annuler</button>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
