@@ -1,0 +1,109 @@
+<br>
+<br>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-primary" (click)="showModal.show()">Ajouter</button>
+      </div>  
+</div>
+<br>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Date creation</th>
+                                <th scope="col">Date d'expriration</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody  *ngFor="let offre of listOffres">
+                            <tr>
+                                <th scope="row"><a href="javascript:void(0);" class="fw-medium">{{offre.id}}</a></th>
+                                <td>{{offre.title}}</td>
+                                <td>{{offre.creationDate}}</td>
+                                <td>{{offre.deadLine}}</td>
+                                <th scope="col">{{offre.offerStatus}}</th>
+                                <td>
+                                    <div dropdown class="dropdown">
+                                        <button dropdownToggle class="btn btn-subtle-secondary btn-sm btn-icon">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+
+                                        <ul *bsDropdownMenu class="dropdown-menu dropdown-menu-end">
+                                            <li><a class="dropdown-item" routerLink="/ecommerce/product-details" href="javascript:void(0);"><i class="ph-eye align-middle me-1"></i> View</a></li>
+                                            <li><a class="dropdown-item edit-item-btn"><i class="ph-pencil align-middle me-1"></i>
+                                                    Edit</a></li>
+                                            <li><a class="dropdown-item remove-item-btn" href="javascript:void(0);"  (click)="Delete(offre.id)"><i class="ph-trash align-middle me-1"></i> Remove</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                    <br><br><br> <br><br><br>
+                </div>
+
+            </div>
+           
+        </div>
+    </div>
+
+   
+</div>
+
+<!--Ajouter offre client-->
+<div class="modal fade" bsModal #showModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header px-4 pt-4">
+                <h5 class="modal-title" id="exampleModalLabel">Ajouter offre</h5>
+                <button type="button" class="btn-close" (click)="showModal.hide()"></button>
+            </div>
+
+            <form  [formGroup]="offreForm" >
+                <div class="modal-body p-4">
+                    <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
+                    <input type="hidden" id="id-field">
+
+                    <input type="hidden" id="order-field">
+                    <input type="hidden" id="rating-field">
+                    <input type="hidden" id="discount-field">
+
+                    <div class="mb-3">
+                        <label for="product-title-input" class="form-label">Titre</label>
+                        <input type="text" id="product-title-input" formControlName="title" class="form-control" placeholder="Enter product title" required>
+                    </div>
+                    <!-- Image offre   -->
+                        <div class="mb-3">
+                        <label class="form-label">Images offre</label>
+                        <dropzone class="dropzone" [config]="dropzoneConfig" [message]="'Cliquez pour télécharger.'" ></dropzone>
+
+                      
+                    </div>
+                  
+                    <div class="mb-3">
+                        <label for="product-stock-input" class="form-label">Date d'expriration</label>
+                        <input type="date" id="product-stock-input" class="form-control" formControlName="deadLine" placeholder="Enter product stocks" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="product-stock-input" class="form-label">Description</label>
+                        <textarea type="date" id="product-stock-input" class="form-control" formControlName="description" placeholder="Enter description" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-ghost-danger" (click)="showModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Annuler</button>
+                        <button type="button" class="btn btn-primary" (click)="SaveOffre()">Ajouter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

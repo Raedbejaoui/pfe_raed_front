@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {ElasticsearchComponent} from "./elasticsearch/elasticsearch.component";
 
 const routes: Routes = [
   {
@@ -50,6 +51,13 @@ const routes: Routes = [
   {
     path: 'pages', loadChildren: () => import('./extrapages/extrapages.module').then(m => m.ExtrapagesModule)
   },
+
+  {
+    path: 'offres', loadChildren: () => import('./offre/offre.module').then(m => m.OffreModule)
+  },
+  {
+    path: 'elasticSearch', component: ElasticsearchComponent
+  }
 ];
 
 @NgModule({

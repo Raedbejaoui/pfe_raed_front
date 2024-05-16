@@ -5,22 +5,13 @@ import { fetchattachmentData, fetchbookmarkData, fetchcallsData, fetchchannnelDa
 import { Store } from '@ngrx/store';
 import { selectData, selectattachmentData, selectbookmarkData, selectcallData, selectcallslistData, selectchannelData, selectcontactData } from 'src/app/store/chat/chat.selector';
 import { cloneDeep } from 'lodash';
-import {Injectable} from "@angular/core";
-
 
 @Component({
     selector: 'app-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
-
 })
-@Injectable({
-  providedIn : 'root'
-  }
-
-)
 export class ChatComponent {
-  private stompClient:any
     channeldata: any
     contactData: any
     chatData: any
@@ -51,9 +42,7 @@ export class ChatComponent {
     bookmarkData: any;
 
     constructor(public formBuilder: UntypedFormBuilder, private datePipe: DatePipe, public store: Store) { }
-    initConnectionSocket (){
-      const url ='//localhost'
-    }
+
     ngOnInit(): void {
         // Chat Data Get Function
         this._fetchData();
@@ -87,7 +76,7 @@ export class ChatComponent {
     }
 
     /**
-     *
+     * 
    * Returns form
    */
     get form() {
@@ -334,7 +323,7 @@ export class ChatComponent {
     }
 
     /**
-     * Delete Chat Contact Data
+     * Delete Chat Contact Data 
      */
     delete(event: any) {
         event.target.closest('li')?.remove();

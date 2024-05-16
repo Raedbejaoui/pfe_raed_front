@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 // Component
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ConfirmRoleComponent } from './confirm-role/confirm-role.component';
+import { RegisterClientComponent } from './register-client/register-client.component';
 
 const routes: Routes = [
   {
@@ -17,6 +19,14 @@ const routes: Routes = [
     path: 'register',
     component: RegisterComponent
   },
+  {
+    path:'register_Client',
+    component:RegisterClientComponent
+  },
+  {
+    path:'confirm_role',
+    component:ConfirmRoleComponent
+  }
 ];
 
 @NgModule({

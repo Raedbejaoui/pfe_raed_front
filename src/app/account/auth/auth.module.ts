@@ -17,6 +17,7 @@ import { LockscreenComponent } from './lockscreen/lockscreen.component';
 import { LogoutComponent } from './logout/logout.component';
 import { SuccessMsgComponent } from './success-msg/success-msg.component';
 import { TwostepComponent } from './twostep/twostep.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,13 +28,15 @@ import { TwostepComponent } from './twostep/twostep.component';
     LockscreenComponent,
     LogoutComponent,
     SuccessMsgComponent,
-    TwostepComponent
+    TwostepComponent,
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
     AuthRoutingModule,
     ErrorsModule,
     NgOtpInputModule
-  ]
+  ]   
 })
 export class AuthModule { }

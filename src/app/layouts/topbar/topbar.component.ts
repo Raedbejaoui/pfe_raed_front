@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { changeMode } from 'src/app/store/layouts/layout-action';
 import { getLayoutmode } from 'src/app/store/layouts/layout-selector';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
+import {AuthService} from "../../account/authentification/auth.service";
 
 @Component({
   selector: 'app-topbar',
@@ -42,7 +43,8 @@ export class TopbarComponent {
   discountRate: any = 0.15;
   discount: any;
   tax: any;
-
+  user!:any;
+  role!:any;
   notificationList: any;
 
   @Output() mobileMenuButtonClicked = new EventEmitter();
@@ -56,15 +58,30 @@ export class TopbarComponent {
   constructor(@Inject(DOCUMENT) private document: any,
     private eventService: EventService,
     public languageService: LanguageService,
-    private authService: AuthenticationService,
+    private authService: AuthService,
     private router: Router,
     public _cookiesService: CookieService,
     public store: Store<RootReducerState>,
     private TokenStorageService: TokenStorageService) { }
-
+  userConnectedString: string | null = localStorage.getItem('currentUser');
+  userConnected: any = this.userConnectedString ? JSON.parse(this.userConnectedString) : null;
   ngOnInit(): void {
+    this.role=this.userConnected.role[0];
+    console.log('Role:',this.role);
+    this.authService.loadUserByEmail(this.userConnected.email).subscribe(
+      (data) => {
+        this.user = data;
+        console.log('User data:', data);
+        // Handle the received user data here
+      },
+      (error) => {
+        console.error('Error:', error);
+        // Handle the error here
+      }
+    );
+
+
     this.element = document.documentElement;
-    this.userData = this.TokenStorageService.getUser();
     this.cartData = cartList
     this.cartData.map((x: any) => {
       x['total'] = (x['qty'] * x['price']).toFixed(2)
@@ -339,12 +356,7 @@ export class TopbarComponent {
    * Logout the user
    */
   logout() {
-    this.authService.logout();
-    // if (environment.defaultauth === 'firebase') {
-    //   this.authService.logout();
-    // } else {
-    //   this.authFackservice.logout();
-    // }
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/account/login']);
+    this.authService.removeUserFromLocalStorage();
   }
 }

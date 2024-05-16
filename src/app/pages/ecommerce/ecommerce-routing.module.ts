@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Component
-import { ProductsComponent } from './products/products.component';
 import { ProductsGridComponent } from './products-grid/products-grid.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { AddProductComponent } from './add-product/add-product.component';
@@ -13,11 +12,12 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SellersComponent } from './sellers/sellers.component';
 import { SellerOverviewComponent } from './seller-overview/seller-overview.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
   {
     path: "products",
-    component: ProductsComponent
+    component: ProductsComponent 
   },
   {
     path: "products-grid",

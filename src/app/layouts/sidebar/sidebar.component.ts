@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 
 import { MenuItem } from './menu.model';
-import { MENU } from './menu';
+import { MENU, MENU1 } from './menu';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -22,9 +22,13 @@ export class SidebarComponent {
     translate.setDefaultLang('en');
   }
 
+ // menuItems1  = [];
+
   ngOnInit(): void {
     // Menu Items
-    this.menuItems = MENU;
+   // this.menuItems = MENU;
+   this.initialize() ;
+
 
     this.router.events.subscribe((event) => {
       if (document.documentElement.getAttribute('data-layout') == 'vertical' || document.documentElement.getAttribute('data-layout') == 'horizontal') {
@@ -34,6 +38,24 @@ export class SidebarComponent {
         }
       }
     });
+  }
+
+
+  userConnectedString: string | null = localStorage.getItem('currentUser');
+  userConnected: any = this.userConnectedString ? JSON.parse(this.userConnectedString) : null;
+  
+
+
+  initialize(): void {
+    console.log('::::::::::::::::::::::::: >>> ' , this.userConnected.role[0])
+    if ( this.userConnected.role[0] == 'ROLE_CLIENT') {
+      this.menuItems = MENU1.clientMenu;
+    } else if (this.userConnected.role [0]== 'ROLE_ENTREPRISE') {
+      this.menuItems = MENU1.EntrepriseMenu;
+    } else if (this.userConnected.role[0] == 'ROLE_ADMIN') {
+      this.menuItems = MENU1.adminMenu;
+    }
+   
   }
 
   /***

@@ -1,6 +1,85 @@
 import { MenuItem } from "./menu.model";
 
+
+
+export const MENU1 = {
+    adminMenu: [
+        {
+            id: 1,
+            label: 'MENUITEMS.MENU.TEXT',
+            isTitle: true
+        },
+        {
+            id: 2,
+            label: 'dashboard',
+            icon: 'bx bx-line-chart',
+            link: 'forms/select',
+        },
+
+      {
+        id: 9,
+        label: 'ElasticSearch',
+        icon: 'ph-calendar',
+        link: 'elasticSearch',
+      },
+    ],
+
+    EntrepriseMenu: [
+
+        {
+            id: 1,
+            label: 'MENUITEMS.MENU.TEXT',
+            isTitle: true
+        },
+      {
+        id: 9,
+        label: 'ElasticSearch',
+        icon: 'ph-calendar',
+        link: 'elasticSearch',
+      },
+
+
+    ],
+
+
+    clientMenu: [
+
+        {
+            id: 4,
+            label: 'Mes offres ',
+            icon: 'bx bx-receipt',
+            link: 'offres/offre_client',
+
+        },
+        {
+            id: 4,
+            label: 'Les Actualités  ',
+            icon: 'bx bx-receipt',
+            link: 'offres/offre_client',
+        },
+      {
+        id: 9,
+        label: 'ElasticSearch',
+        icon: 'ph-calendar',
+        link: 'elasticSearch',
+      },
+    ],
+
+};
+
+
+
 export const MENU: MenuItem[] = [
+
+
+
+
+
+
+    /*
+
+    Les menu pricipale de template
+
     {
         id: 1,
         label: 'MENUITEMS.MENU.TEXT',
@@ -1093,4 +1172,6 @@ export const MENU: MenuItem[] = [
             }
         ]
     }
+
+    */
 ]

@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { AuthfakeauthenticationService } from 'src/app/core/services/authfake.service';
 import { login } from 'src/app/store/Authentication/authentication.actions';
+import { AuthService } from '../authentification/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -24,26 +25,22 @@ export class LoginComponent {
   a: any = 10;
   b: any = 20;
   toast!: false;
-
+   userConnected:any ;
   // set the current year
   year: number = new Date().getFullYear();
 
   // tslint:disable-next-line: max-line-length
-  constructor(private formBuilder: UntypedFormBuilder,
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private authEntreprise:AuthService,
     private router: Router,
     private store: Store,
-) { }
+    ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('currentUser')) {
-      this.router.navigate(['/']);
-    }
-    /**
-     * Form Validatyion
-     */
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -55,12 +52,27 @@ export class LoginComponent {
    */
   onSubmit() {
     this.submitted = true;
+    const loginData = this.loginForm.value ;
+    this.authEntreprise.login(loginData).subscribe({
+      next: (data) => {
+      console.log(data);
+      this.userConnected=data ;
+        if(this.userConnected.role [0]== 'ROLE_ENTREPRISE') {
+          localStorage.setItem('currentUser', JSON.stringify(this.userConnected));
+          this.router.navigate(['/offres/offre_entreprise']);
+        }else if (this.userConnected.role[0] == 'ROLE_CLIENT') {
+          localStorage.setItem('currentUser', JSON.stringify(this.userConnected));
+          this.router.navigate(['/offres/offre_client']);
+        }else if(this.userConnected.role[0] == 'ROLE_ADMIN'){
+          localStorage.setItem('currentUser', JSON.stringify(this.userConnected));
+          this.router.navigate(['/offres/offre_admin']);
+        }
+      },
+      error: (err) => {
+        console.log("error d'authentification user ")
+      }
+    });
 
-    const email = this.f['email'].value; // Get the username from the form
-    const password = this.f['password'].value; // Get the password from the form
-
-    // Login Api
-    this.store.dispatch(login({ email: email, password: password }));
   }
 
   /**

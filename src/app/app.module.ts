@@ -52,11 +52,6 @@ import { CourcesEffects } from './store/Learning-cources/cources.effect';
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
-if (environment.defaultauth === 'firebase') {
-  initFirebaseBackend(environment.firebaseConfig);
-} else {
-  fakebackendInterceptor;
-}
 
 @NgModule({
   declarations: [
@@ -77,7 +72,6 @@ if (environment.defaultauth === 'firebase') {
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
-
     EffectsModule.forRoot([
       AnalyticsEffects,
       CRMEffects,
@@ -112,9 +106,9 @@ if (environment.defaultauth === 'firebase') {
     AngularFireAuthModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: fakebackendInterceptor, multi: true },
+
+
+
   ],
   bootstrap: [AppComponent]
 })

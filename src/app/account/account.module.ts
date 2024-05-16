@@ -9,19 +9,23 @@ import { AuthModule } from './auth/auth.module';
 // Component
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ConfirmRoleComponent } from './confirm-role/confirm-role.component';
+import { RegisterClientComponent } from './register-client/register-client.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ConfirmRoleComponent,
+    RegisterClientComponent
   ],
   imports: [
     CommonModule,
     AccountRoutingModule,
     AuthModule,
+    ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule
   ]
 })
 export class AccountModule { }

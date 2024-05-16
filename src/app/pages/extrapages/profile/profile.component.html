@@ -21,8 +21,9 @@
                 <div class="text-center border-bottom border-dashed pb-4">
                     <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-lg rounded-circle p-1 img-thumbnail">
                     <div class="mt-3">
-                        <h5>Richard Marshall <i class="bi bi-patch-check-fill align-baseline text-info ms-1"></i></h5>
-                        <p class="text-muted">Web Developer</p>
+                            <h5  *ngIf="role == 'ROLE_ENTREPRISE'">{{user?.name}} <i class="bi bi-patch-check-fill align-baseline text-info ms-1"></i></h5>
+                      <h5  *ngIf="role == 'ROLE_CLIENT'">{{user?.firstName}} {{user?.lastName}} <i class="bi bi-patch-check-fill align-baseline text-info ms-1"></i></h5>
+                      <p class="text-muted">{{user?.role}}</p>
                     </div>
 
                     <div class="d-flex gap-2 mt-4">
@@ -41,11 +42,11 @@
                             <tbody>
                                 <tr>
                                     <th class="ps-0" scope="row">Designation</th>
-                                    <td class="text-muted text-end">Web Developer</td>
+                                    <td class="text-muted text-end">{{user?.role}}</td>
                                 </tr>
                                 <tr>
                                     <th class="ps-0" scope="row">Phone No</th>
-                                    <td class="text-muted text-end">617 219 6245</td>
+                                    <td class="text-muted text-end">{{user?.phone}}</td>
                                 </tr>
                                 <tr>
                                     <th class="ps-0" scope="row">Birth of Date</th>
@@ -53,15 +54,15 @@
                                 </tr>
                                 <tr>
                                     <th class="ps-0" scope="row">Website</th>
-                                    <td class="text-muted text-end"><a href="http://themesbrand.com/" target="_blank">www.themesbrand.com</a></td>
-                                </tr>
+                                    <td class="text-muted text-end">{{user?.site}}</td>
+                                  </tr>
                                 <tr>
-                                    <th class="ps-0" scope="row">Email</th>
-                                    <td class="text-muted text-end">richardmarshall&#64;steex.com</td>
+                                  <th class="ps-0" scope="row">Email</th>
+                                  <td class="text-muted text-end">{{user?.email}}</td>
                                 </tr>
                                 <tr>
                                     <th class="ps-0" scope="row">Location</th>
-                                    <td class="text-muted text-end">Los Angeles, California</td>
+                                    <td class="text-muted text-end">{{user?.adresse}}</td>
                                 </tr>
                                 <tr>
                                     <th class="ps-0" scope="row">Joining Date</th>

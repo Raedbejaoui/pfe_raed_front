@@ -73,71 +73,96 @@
                             <div class="card mb-0 border-0 shadow-none mb-0">
                                 <div class="card-body p-sm-5 m-lg-4">
                                     <div class="text-center mt-2">
-                                        <h5 class="fs-3xl">Create your free account</h5>
-                                        <p class="text-muted">Get your free Steex account now</p>
+                                        <h5 class="fs-3xl">Créez votre compte entreprise gratuitement.</h5>
                                     </div>
                                     <div class="p-2 mt-5">
-                                        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate action="index.html">
+                                        <form [formGroup]="signupForm" (ngSubmit)="signupEntreprise()" class="needs-validation" novalidate action="index.html">
 
                                             <div class="mb-3">
                                                 <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" id="useremail" placeholder="Enter email address" required formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                                                <input type="email" class="form-control" id="useremail" formControlName="email" placeholder="Enter email address" required formControlName="email" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
                                                 <div class="invalid-feedback">
                                                     Please enter email
                                                 </div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control " id="username" placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                                <label for="username" class="form-label">Nom <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control " formControlName="name" id="username" placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
                                                 <div class="invalid-feedback">
                                                     Please enter username
                                                 </div>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label class="form-label" for="password-input">Password <span class="text-danger">*</span></label>
+                                                <label class="form-label" for="password-input">Mot de passe <span class="text-danger">*</span></label>
                                                 <div class="position-relative auth-pass-inputgroup">
-                                                    <input [type]="fieldTextType ? 'text' : 'password'" class="form-control password-input pe-5" placeholder="Enter password" id="password-input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required formControlName="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+                                                    <input [type]="fieldTextType ? 'text' : 'password'" formControlName="password" class="form-control password-input pe-5" placeholder="Enter password" id="password-input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required formControlName="password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
                                                     <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType
                                                     }" (click)="toggleFieldTextType()"></i></button>
 
                                                 </div>
                                             </div>
 
-                                            <div class="mb-4">
-                                                <p class="mb-0 fs-xs text-muted fst-italic">By registering you agree to the Steex <a routerLink="/pages/term-conditions" class="text-primary text-decoration-underline fst-normal fw-medium">Terms of Use</a></p>
+                                            @if (submitted && f['password'].errors) {
+                                                <div id="password-contain" class="p-3 bg-light mb-2 rounded" class="invalid-feedback">
+                                                    <h5 class="fs-sm">Password must contain:</h5>
+                                                    <p id="pass-length" class="invalid fs-xs mb-2">Minimum <b>8 characters</b></p>
+                                                    <p id="pass-lower" class="invalid fs-xs mb-2">At <b>lowercase</b> letter (a-z)</p>
+                                                    <p id="pass-upper" class="invalid fs-xs mb-2">At least <b>uppercase</b> letter (A-Z)</p>
+                                                    <p id="pass-number" class="invalid fs-xs mb-0">A least <b>number</b> (0-9)</p>
+                                                </div>
+                                                }
+
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">Domaine <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control " formControlName="domaine"  placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Please enter username
+                                                </div>
                                             </div>
 
-                                            @if (submitted && f['password'].errors) {
-                                            <div id="password-contain" class="p-3 bg-light mb-2 rounded" class="invalid-feedback">
-                                                <h5 class="fs-sm">Password must contain:</h5>
-                                                <p id="pass-length" class="invalid fs-xs mb-2">Minimum <b>8 characters</b></p>
-                                                <p id="pass-lower" class="invalid fs-xs mb-2">At <b>lowercase</b> letter (a-z)</p>
-                                                <p id="pass-upper" class="invalid fs-xs mb-2">At least <b>uppercase</b> letter (A-Z)</p>
-                                                <p id="pass-number" class="invalid fs-xs mb-0">A least <b>number</b> (0-9)</p>
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">Télephone <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control " formControlName="phone"  placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Please enter username
+                                                </div>
                                             </div>
-                                            }
+
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">Adresse <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control " formControlName="adresse"  placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Please enter username
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">Description <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control " formControlName="description"  placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Please enter username
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label for="username" class="form-label">Site <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control " formControlName="site"  placeholder="Enter username" required formControlName="name" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+                                                <div class="invalid-feedback">
+                                                    Please enter username
+                                                </div>
+                                            </div>
+
+                    
+                            
 
                                             <div class="mt-4">
-                                                <button class="btn btn-primary w-100" type="submit">Sign Up</button>
-                                            </div>
-
-                                            <div class="mt-4 text-center">
-                                                <div class="signin-other-title position-relative">
-                                                    <h5 class="fs-sm mb-4 title text-muted">Create account with</h5>
-                                                </div>
-
-                                                <div>
-                                                    <button type="button" class="btn btn-subtle-primary btn-icon "><i class="ri-facebook-fill fs-lg"></i></button>
-                                                    <button type="button" class="btn btn-subtle-danger btn-icon "><i class="ri-google-fill fs-lg"></i></button>
-                                                    <button type="button" class="btn btn-subtle-dark btn-icon "><i class="ri-github-fill fs-lg"></i></button>
-                                                    <button type="button" class="btn btn-subtle-info btn-icon "><i class="ri-twitter-fill fs-lg"></i></button>
-                                                </div>
+                                                <button class="btn btn-primary w-100" type="submit">Inscription</button>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="mt-4 text-center">
-                                        <p class="mb-0">Already have an account ? <a routerLink="/auth/login" class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
+                                        <p class="mb-0">Déjà un compte ? <a routerLink="/account/login" class="fw-semibold text-primary text-decoration-underline"> Connexion </a> </p>
                                     </div>
                                 </div><!-- end card body -->
                             </div><!-- end card -->

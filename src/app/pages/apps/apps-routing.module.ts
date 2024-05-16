@@ -7,14 +7,9 @@ import { ChatComponent } from './chat/chat.component';
 import { EmailComponent } from './email/email.component';
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { WidgetsComponent } from './widgets/widgets.component';
-import {MessangerComponent} from "./messanger/messanger.component";
-
-
 
 const routes: Routes = [
-
-  {
-
+    {
         path: "calendar",
         component: CalendarComponent
     },
@@ -22,8 +17,7 @@ const routes: Routes = [
         path: "chat",
         component: ChatComponent
     },
-
-  {
+    {
         path: "email",
         component: EmailComponent
     },
@@ -34,11 +28,7 @@ const routes: Routes = [
     {
         path: "widgets",
         component: WidgetsComponent
-    },
-  {
-    path :"messanger/:id",
-    component: MessangerComponent
-  }
+    }
 ];
 
 @NgModule({
