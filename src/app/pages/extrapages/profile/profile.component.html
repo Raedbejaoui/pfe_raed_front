@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="text-center border-bottom border-dashed pb-4">
-                    <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-lg rounded-circle p-1 img-thumbnail">
+                    <img [src]="user?.imageProfile" alt="" class="avatar-lg rounded-circle p-1 img-thumbnail">
                     <div class="mt-3">
                             <h5  *ngIf="role == 'ROLE_ENTREPRISE'">{{user?.name}} <i class="bi bi-patch-check-fill align-baseline text-info ms-1"></i></h5>
                       <h5  *ngIf="role == 'ROLE_CLIENT'">{{user?.firstName}} {{user?.lastName}} <i class="bi bi-patch-check-fill align-baseline text-info ms-1"></i></h5>
