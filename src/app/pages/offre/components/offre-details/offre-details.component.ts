@@ -255,6 +255,7 @@ export class OffreDetailsComponent implements OnInit {
     // Call your service to save the edited offer
     this.offreService.updateOffer(this.offerId, this.editedOffer).subscribe(
       (response: any) => {
+        location.reload();
         console.log("Offer edited successfully", response);
         this.editModalRef?.hide();
       },

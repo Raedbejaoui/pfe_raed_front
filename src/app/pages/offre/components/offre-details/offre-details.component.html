@@ -187,7 +187,7 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header d-flex flex-wrap align-items-center gap-3 mb-2">
-        <h6 class="card-title flex-grow-1 mb-0">Ratings & Reviews</h6>
+        <h6 class="card-title flex-grow-1 mb-0">Replies</h6>
         <div class="flex-shrink-0">
           <div dropdown class="dropdown card-header-dropdown">
             <a dropdownToggle class="text-muted dropdown-btn" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -204,76 +204,53 @@
           </div>
         </div>
         <div class="flex-shrink-0">
-          <button type="button" class="btn btn-primary" (click)="addReview.show()"><i class="ph-plus-circle align-middle me-1"></i> Add Review</button>
+         <!-- <button type="button" class="btn btn-primary" (click)="addReply.show()"><i class="ph-plus-circle align-middle me-1"></i> Add Reply</button> -->
         </div>
       </div>
       <div class="card-body">
         <div class="row gy-3">
-          <div class="col-lg-2">
-            <div class="text-center mt-3 mt-lg-5">
-              <h1 class="mb-3">4.9 <small class="fs-sm text-muted fw-normal">/ 5.0</small></h1>
-              <div class="text-warning hstack gap-2 justify-content-center mb-2">
-                <i class="bi bi-star-fill align-baseline"></i>
-                <i class="bi bi-star-fill align-baseline"></i>
-                <i class="bi bi-star-fill align-baseline"></i>
-                <i class="bi bi-star-fill align-baseline"></i>
-                <i class="bi bi-star-fill align-baseline"></i>
-              </div>
-              <p class="mb-0"><b>3.5k</b> Reviews</p>
-            </div>
-          </div><!--end col-->
-          <div class="col-lg-10">
+          <div class="col-lg-12">
             <div>
               <ngx-simplebar class="me-lg-n3 pe-lg-4" style="max-height: 500px;">
-                <ul class="list-unstyled mb-0" id="review-list">
-                  @for (data of reviewData; track $index) {
-                  <li class="review-list py-2" id="review-1">
-                      <div class="border border-dashed rounded p-3">
-                          <div class="hstack flex-wrap gap-3 mb-4">
-                              <div class="badge rounded-pill bg-danger-subtle text-danger mb-0">
-                                  <i class="mdi mdi-star"></i> <span class="rate-num">{{data.rating}}</span>
-                                                </div>
-                                                <div class="vr"></div>
-                                                <div class="flex-grow-1">
-                                                    <p class="mb-0"><a href="javascript:void(0);">{{data.user}}</a>
-                                                    </p>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-muted fs-13 mb-0">{{data.date}}</span>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary edit-item-list me-1" (click)="editReview($index)"><i class="ph-pencil align-baseline me-1"></i> Edit</a>
-                                                    <a href="javascript:void(0);" class="badge bg-danger-subtle text-danger" (click)="removeReview($index)"><i class="ph-trash align-baseline"></i></a>
-                                                </div>
-                                            </div>
-
-                                            <h6 class="review-title fs-md">{{data.title}}</h6>
-                                            <p class="review-desc mb-0">{{data.content}}</p>
-                                            @if (data.profile) {
-                  <div class="d-flex flex-grow-1 gap-2 review-gallery-img">
-                    @for (img of data.profile; track $index) {
-                    <a href="javascript:void(0);" class="avatar-md mt-3">
-                        <div class="avatar-title bg-light rounded">
-                            <img src="{{img}}" alt="img-1.png" class="product-img avatar-sm">
-                                                    </div>
-                                                </a>
-                    }
-                  </div>
-                  }
-                  </div>
-              </li>
-                  }
+                <ul class="list-unstyled mb-0" id="reply-list">
+                  <li class="reply-list py-2" *ngFor="let reply of offerDetails?.replies; let index = index">
+                    <div class="border border-dashed rounded p-3">
+                      <div class="hstack flex-wrap gap-3 mb-4">
+                        <div class="badge rounded-pill bg-info-subtle text-info mb-0">
+                          <i class="mdi mdi-comment"></i> <span class="rate-num">{{reply.rating}}</span>
+                        </div>
+                        <div class="vr"></div>
+                        <div class="flex-grow-1">
+                          <p class="mb-0"><a href="javascript:void(0);">{{reply.user}}</a></p>
+                        </div>
+                        <div class="flex-shrink-0">
+                          <span class="text-muted fs-13 mb-0">{{ formatDate(reply.creationDate)}}</span>
+                        </div>
+                        <!--<div class="flex-shrink-0">
+                          <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary edit-item-list me-1" (click)="editReply(index)"><i class="ph-pencil align-baseline me-1"></i> Edit</a>
+                          <a href="javascript:void(0);" class="badge bg-danger-subtle text-danger" (click)="removeReply(index)"><i class="ph-trash align-baseline"></i></a>
+                        </div> -->
+                      </div>
+                      <h6 class="reply-title fs-md">{{reply.user.firstName}}</h6>
+                      <p class="reply-desc mb-0">{{reply.text}}</p>
+                      <div class="d-flex flex-grow-1 gap-2 reply-gallery-img" *ngIf="reply.user">
+                        <a href="javascript:void(0);" class="avatar-md mt-3" *ngFor="let img of reply.user.imageProfile">
+                          <div class="avatar-title bg-light rounded">
+                            <img [src]="img" alt="img-1.png" class="product-img avatar-sm">
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </li>
                 </ul>
               </ngx-simplebar>
             </div>
           </div>
-          <!-- end col -->
         </div><!--end row-->
       </div>
     </div>
   </div><!--end col-->
 </div><!--end row-->
-
 <!-- addReview Modal -->
 <div bsModal #addReview="bs-modal" class="modal fade">
   <div class="modal-dialog modal-lg">
@@ -382,6 +359,10 @@
     <div class="mb-3">
       <label for="title-input" class="form-label">Title</label>
       <input type="text" class="form-control" id="title-input" [(ngModel)]="editedOffer.title">
+    </div>
+    <div class="mb-3">
+      <label for="title-input" class="form-label">Description</label>
+      <input type="text" class="form-control" id="description-input" [(ngModel)]="editedOffer.description">
     </div>
     <!-- Add other form fields here -->
   </div>
