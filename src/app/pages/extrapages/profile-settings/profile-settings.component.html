@@ -133,41 +133,93 @@
 
 
 
+<form [formGroup]="userForm" (ngSubmit)="updateUserBasedOnRole()">
+  <div *ngIf="role == 'ROLE_CLIENT'">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="firstnameInput" class="form-label">First Name</label>
+          <input type="text" class="form-control" id="firstnameInput" placeholder="Enter your firstname" formControlName="firstName">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="lastnameInput" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="lastnameInput" placeholder="Enter your last name" formControlName="lastName">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="emailInput" class="form-label">Email</label>
+          <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" formControlName="email">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="phoneInput" class="form-label">Phone</label>
+          <input type="text" class="form-control" id="phoneInput" placeholder="Enter your phone" formControlName="phone">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="adresseInput" class="form-label
+          ">Addresse</label>
+          <input type="text" class="form-control" id="adresseInput" placeholder="Enter your addresse" formControlName="adresse">
+        </div>
+      </div>
+    </div>
+    </div>
 
-                         <form [formGroup]="userForm" (ngSubmit)="updateUserBasedOnRole()">
-                            <div class="row">
-                              <div class="col-lg-6">
-                                <div class="mb-3">
-                                  <label for="firstnameInput" class="form-label">First Name</label>
-                                  <input type="text" class="form-control" id="firstnameInput" placeholder="Enter your firstname" formControlName="firstName">
-                                </div>
-                              </div>
-                              <div class="col-lg-6">
-                                <div class="mb-3">
-                                  <label for="lastnameInput" class="form-label">Last Name</label>
-                                  <input type="text" class="form-control" id="lastnameInput" placeholder="Enter your last name" formControlName="lastName">
-                                </div>
-                              </div>
-                              <div class="col-lg-6">
-                                <div class="mb-3">
-                                  <label for="phonenumberInput" class="form-label">Phone Number</label>
-                                  <input type="text" class="form-control" id="phonenumberInput" placeholder="Enter your phone number" formControlName="phone">
-                                </div>
-                              </div>
-                              <div class="col-lg-6">
-                                <div class="mb-3">
-                                  <label for="emailInput" class="form-label">Email Address</label>
-                                  <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" formControlName="email">
-                                </div>
-                              </div>
-                              <div class="col-lg-12">
-                                <div class="hstack gap-2 justify-content-end">
-                                  <button type="submit" class="btn btn-primary">Updates</button>
-                                  <button type="button" class="btn btn-subtle-danger">Cancel</button>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
+  <div *ngIf="role == 'ROLE_ENTREPRISE'">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="nameInput" class="form-label">Name</label>
+          <input type="text" class="form-control" id="nameInput" placeholder="Enter your name" formControlName="name">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="domaineInput" class="form-label">Domaine</label>
+          <input type="text" class="form-control" id="domaineInput" placeholder="Enter your domaine" formControlName="domaine">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="emailInput" class="form-label">Email</label>
+          <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" formControlName="email">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="descriptionInput" class="form-label">Description</label>
+          <input type="text" class="form-control" id="descriptionInput" placeholder="Enter your description" formControlName="description">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="phoneInput" class="form-label">Phone</label>
+          <input type="text" class="form-control" id="phoneInput" placeholder="Enter your phone" formControlName="phone">
+        </div>
+    </div>
+<div class="col-lg-6">
+      <div class="mb-3">
+        <label for="adresseInput" class="form-label">Addresse</label>
+        <input type="text" class="form-control" id="adresseInput" placeholder="Enter your addresse" formControlName="adresse">
+
+      </div>
+</div>
+
+</div>
+
+  </div>
+  <div class="col-lg-12">
+    <div class="hstack gap-2 justify-content-end">
+      <button type="submit" class="btn btn-primary">Updates</button>
+      <button type="button" class="btn btn-subtle-danger">Cancel</button>
+    </div>
+  </div>
+</form>
                         </div>
                     </div>
                 </div>

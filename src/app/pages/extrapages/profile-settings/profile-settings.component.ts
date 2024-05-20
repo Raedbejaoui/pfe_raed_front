@@ -10,10 +10,10 @@ import {AuthService} from "../../../account/authentification/auth.service";
   providers: [FormsModule]
 })
 
-// Profile Setting component
+
 export class ProfileSettingsComponent {
 
-  // bread crumb items
+
   breadCrumbItems!: Array<{}>;
   fieldTextType!: boolean;
   fieldTextType1!: boolean;
@@ -42,6 +42,12 @@ export class ProfileSettingsComponent {
       lastName: [''],
       phone: [''],
       email: [''],
+      name: [''],
+      domaine: [''],
+      description: [''],
+      cin: [''],
+      adresse: [''],
+
 
     });
     /**
