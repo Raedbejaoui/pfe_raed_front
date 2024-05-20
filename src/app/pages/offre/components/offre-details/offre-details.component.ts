@@ -1,24 +1,29 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {SlickCarouselComponent, SlickCarouselModule} from 'ngx-slick-carousel';
-// Data Get
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { details, reviews } from '../../../ecommerce/product-details/data';
 import { reviewsModel } from '../../../ecommerce/product-details/product-details.model';
-// Swiper
-import { ReactiveFormsModule } from '@angular/forms';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import {ModalDirective, ModalModule} from 'ngx-bootstrap/modal';
+import {FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap/modal';
 import { HttpClient } from '@angular/common/http';
-import {SharedModule} from "../../../../shared/shared.module";
+import { ActivatedRoute, Router } from '@angular/router';
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { OffreService } from '../../service/offre.service';
+import { AuthService } from '../../../../account/authentification/auth.service';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import {SimplebarAngularModule} from "simplebar-angular";
-import {ActivatedRoute} from "@angular/router";
-import {RatingModule} from "ngx-bootstrap/rating";
-import {DropzoneConfigInterface, DropzoneModule} from "ngx-dropzone-wrapper";
-import {OffreService} from "../../service/offre.service";
+import {SharedModule} from "../../../../shared/shared.module";
 
 @Component({
   selector: 'app-offre-details',
   standalone: true,
   imports: [
+    FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     ModalModule,
     SlickCarouselModule,
@@ -30,12 +35,12 @@ import {OffreService} from "../../service/offre.service";
     DropzoneModule
   ],
   templateUrl: './offre-details.component.html',
-  styleUrl: './offre-details.component.scss'
+  styleUrls: ['./offre-details.component.scss']
 })
-export class OffreDetailsComponent implements OnInit{
-  offerId! : string;
+export class OffreDetailsComponent implements OnInit {
+  offerId!: string;
+  currentUserId: string | null = null;
   offerDetails!: any;
-  // bread crumb items
   breadCrumbItems!: Array<{}>;
   reviewForm!: UntypedFormGroup;
   productdetail: any;
@@ -43,34 +48,41 @@ export class OffreDetailsComponent implements OnInit{
   submitted: boolean = false;
   deleteId: any;
 
-
   files: File[] = [];
-
-  // @ViewChild('usefulSwiper', { static: false }) usefulSwiper?: SwiperComponent;
   @ViewChild('addReview', { static: false }) addReview?: ModalDirective;
   @ViewChild('removeItemModal', { static: false }) removeItemModal?: ModalDirective;
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
-  constructor(private route: ActivatedRoute, private formBuilder: UntypedFormBuilder, private http: HttpClient,
-              private offreService: OffreService
-  ) {
-  }
+
+  @ViewChild('editOfferModalTemplate') editOfferModalTemplate!: TemplateRef<any>;
+  editModalRef?: BsModalRef;
+  editedOffer: any;
+
+
+  constructor(
+    private route: ActivatedRoute,
+    private formBuilder: UntypedFormBuilder,
+    private http: HttpClient,
+    private offreService: OffreService,
+    private authService: AuthService,
+    private router: Router,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.offerId = params['id'];
     });
-    /**
-     * BreadCrumb
-     */
+
     this.breadCrumbItems = [
       { label: 'Ecommerce' },
       { label: 'Product Overview', active: true }
     ];
     this.getOfferDetails();
+    this.editedOffer = this.offerDetails;
+    this.authService.retrieveUserFromLocalStorage();
+    this.currentUserId = this.authService.getUserIdFromLocalStorage();
+    console.log(this.currentUserId);
 
-    /**
-     * Form Validation
-     */
     this.reviewForm = this.formBuilder.group({
       _id: [''],
       title: ['', [Validators.required]],
@@ -79,13 +91,11 @@ export class OffreDetailsComponent implements OnInit{
       img: ['']
     });
 
-    // Fetch Data
-    this.productdetail = details
-    this.reviewData = reviews.reverse()
+    this.productdetail = details;
+    this.reviewData = reviews.reverse();
   }
 
   slideConfig = {
-    // Configuration options for the ngx-slick-carousel
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -93,27 +103,26 @@ export class OffreDetailsComponent implements OnInit{
   };
 
   slidesConfig = {
-    // Configuration options for the ngx-slick-carousel
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-  }
+  };
 
   slickChange(event: any) {
-    const swiper = document.querySelectorAll('.swiperlist')
+    const swiper = document.querySelectorAll('.swiperlist');
   }
 
   slidePreview(id: any, event: any) {
-    const swiper = document.querySelectorAll('.swiperlist')
+    const swiper = document.querySelectorAll('.swiperlist');
     swiper.forEach((el: any) => {
-      el.classList.remove('swiper-slide-thumb-active')
-    })
-    event.target.closest('.swiperlist').classList.add('swiper-slide-thumb-active')
-    this.slickModal.slickGoTo(id)
+      el.classList.remove('swiper-slide-thumb-active');
+    });
+    event.target.closest('.swiperlist').classList.add('swiper-slide-thumb-active');
+    this.slickModal.slickGoTo(id);
   }
 
-  public dropzoneConfig: DropzoneConfigInterface = {
+  dropzoneConfig: DropzoneConfigInterface = {
     clickable: true,
     addRemoveLinks: true,
     previewsContainer: false,
@@ -121,84 +130,75 @@ export class OffreDetailsComponent implements OnInit{
 
   uploadedFiles: any[] = [];
 
-  // File Upload
-  profile: any = [];
   onUploadSuccess(event: any) {
     setTimeout(() => {
       this.uploadedFiles.push(event[0]);
-      this.profile.push(event[0].dataURL)
-      this.reviewForm.controls['img'].setValue(this.profile);
+      this.reviewForm.controls['img'].setValue(this.uploadedFiles.map(file => file.dataURL));
     }, 0);
   }
 
-  // File Remove
   removeFile(event: any) {
     this.uploadedFiles.splice(this.uploadedFiles.indexOf(event), 1);
   }
 
-
-  // Edit Review
   editReview(id: any) {
-    this.uploadedFiles = []
-    this.addReview?.show()
-    this.reviewForm.controls['_id'].setValue(this.reviewData[id].id);
-    this.reviewForm.controls['title'].setValue(this.reviewData[id].title);
-    this.reviewForm.controls['rate'].setValue(this.reviewData[id].rating);
-    this.reviewForm.controls['content'].setValue(this.reviewData[id].content);
-    this.uploadedFiles = this.reviewData[id].profile
+    this.uploadedFiles = [];
+    this.addReview?.show();
+    const review = this.reviewData[id];
+    this.reviewForm.patchValue({
+      _id: review.id,
+      title: review.title,
+      rate: review.rating,
+      content: review.content,
+      img: review.profile
+    });
+    this.uploadedFiles = review.profile;
   }
 
-  // Add Review
   saveReview() {
     if (this.reviewForm.valid) {
-      if (this.reviewForm.get('_id')?.value) {
-        this.reviewData = reviews.map((order: { id: any; }) => order.id === this.reviewForm.get('_id')?.value ? { ...order, ...this.reviewForm.value } : order);
+      const formValue = this.reviewForm.value;
+      if (formValue._id) {
+        this.reviewData = this.reviewData.map(review =>
+          review.id === formValue._id ? { ...review, ...formValue } : review
+        );
       } else {
-        const title = this.reviewForm.get('title')?.value;
-        const rating = this.reviewForm.get('rate')?.value;
-        const content = this.reviewForm.get('content')?.value;
-        const profile = this.reviewForm.get('img')?.value;
-
-        this.reviewData.push({
+        const newReview = {
+          ...formValue,
           id: this.reviewData.length + 1,
-          rating,
-          title,
-          content,
           date: '',
           user: '',
-          profile: this.profile
-        })
+          profile: this.uploadedFiles
+        };
+        this.reviewData.push(newReview);
       }
-      this.addReview?.hide()
+      this.addReview?.hide();
       this.reviewForm.reset();
       this.uploadedFiles = [];
-      this.profile = [];
     }
-    this.submitted = true
-
+    this.submitted = true;
   }
 
-  // Delete Review
   removeReview(id: any) {
-    this.deleteId = id
-    this.removeItemModal?.show()
+    this.deleteId = id;
+    this.removeItemModal?.show();
   }
 
   DeleteReview() {
-    this.reviewData.splice(this.deleteId, 1)
-    this.removeItemModal?.hide()
+    this.reviewData.splice(this.deleteId, 1);
+    this.removeItemModal?.hide();
   }
-  getOfferDetails()
-  {
+
+  getOfferDetails() {
     this.offreService.getOfferById(this.offerId).subscribe(
       (offerDetails: any) => {
         this.offerDetails = offerDetails;
         console.log("Offer details : ", offerDetails);
       },
-      (error : any) => {
+      (error: any) => {
         console.error("Error fetching offer details", error);
       }
-    )
+    );
   }
 
   formatDate(dateString: string): string {
@@ -209,4 +209,60 @@ export class OffreDetailsComponent implements OnInit{
     return `${year}/${month}/${day}`;
   }
 
+  isCurrentUserOwner(): boolean {
+    return this.offerDetails && this.currentUserId && this.offerDetails.user.id === this.currentUserId;
+  }
+
+  editProduct() {
+    if (this.isCurrentUserOwner()) {
+      this.router.navigate(['/edit-product', this.offerId]);
+    } else {
+      console.error("Unauthorized attempt to edit product");
+    }
+  }
+
+  confirmDelete() {
+    if (this.isCurrentUserOwner()) {
+      this.removeItemModal?.show();
+    } else {
+      console.error("Unauthorized attempt to delete product");
+    }
+  }
+
+  deleteProduct() {
+    if (this.isCurrentUserOwner()) {
+      this.offreService.deleteOffer(this.offerId).subscribe(
+        (response: any) => {
+          console.log("Product deleted successfully", response);
+          this.router.navigate(['/offres/offre_client']);
+        },
+        (error: any) => {
+          console.error("Error deleting product", error);
+        }
+      );
+      this.removeItemModal?.hide();
+    } else {
+      console.error("Unauthorized attempt to delete product");
+    }
+  }
+
+  editOffer(offer: any) {
+    this.editedOffer = { ...offer };
+    this.editModalRef = this.modalService.show(this.editOfferModalTemplate);
+  }
+
+  saveEditedOffer() {
+    // Call your service to save the edited offer
+    this.offreService.updateOffer(this.offerId, this.editedOffer).subscribe(
+      (response: any) => {
+        console.log("Offer edited successfully", response);
+        this.editModalRef?.hide();
+      },
+      (error: any) => {
+        console.error("Error editing offer", error);
+      }
+    );
+    console.log("Offer edited successfully", this.editedOffer);
+    this.editModalRef?.hide();
+  }
 }
