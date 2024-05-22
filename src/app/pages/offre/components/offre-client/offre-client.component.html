@@ -30,7 +30,8 @@
                                 <td>{{offre.creationDate}}</td>
                                 <td>{{offre.deadLine}}</td>
                                 <th scope="col">{{offre.offerStatus}}</th>
-                                <td>{{offre.image}}</td>
+                                <td> <img [src]="offre.image" alt="" id="user-img" class="avatar-lg rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
+                                </td>
                                 <td>
                                     <div dropdown class="dropdown">
                                         <button dropdownToggle class="btn btn-subtle-secondary btn-sm btn-icon">

@@ -17,6 +17,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import {SimplebarAngularModule} from "simplebar-angular";
 import {SharedModule} from "../../../../shared/shared.module";
+import {forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-offre-details',
@@ -65,7 +66,7 @@ export class OffreDetailsComponent implements OnInit {
     private offreService: OffreService,
     private authService: AuthService,
     private router: Router,
-    private modalService: BsModalService
+    private modalService: BsModalService,
   ) {}
 
   ngOnInit(): void {
@@ -194,9 +195,30 @@ export class OffreDetailsComponent implements OnInit {
       (offerDetails: any) => {
         this.offerDetails = offerDetails;
         console.log("Offer details : ", offerDetails);
+
+        // Load users for replies
+        this.loadUsersForReplies(offerDetails.replies);
       },
       (error: any) => {
         console.error("Error fetching offer details", error);
+      }
+    );
+  }
+
+  loadUsersForReplies(replies: any[]) {
+    const observables: Observable<any>[] = [];
+    replies.forEach(reply => {
+      observables.push(this.authService.loadUserById(reply.user.id));
+    });
+
+    forkJoin(observables).subscribe(
+      (users: any[]) => {
+        users.forEach((user, index) => {
+          replies[index].userDetails = user; //
+        });
+      },
+      (error: any) => {
+        console.error("Error fetching user details for replies", error);
       }
     );
   }

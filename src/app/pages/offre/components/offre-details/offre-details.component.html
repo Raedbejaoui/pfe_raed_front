@@ -221,28 +221,17 @@
                         </div>
                         <div class="vr"></div>
                         <div class="flex-grow-1">
-                          <p class="mb-0"><a href="javascript:void(0);">{{reply.user}}</a></p>
+                          <p class="mb-0"><a href="javascript:void(0);">{{reply.userDetails?.firstName}}</a></p>
                         </div>
                         <div class="flex-shrink-0">
                           <span class="text-muted fs-13 mb-0">{{ formatDate(reply.creationDate)}}</span>
                         </div>
-                        <!--<div class="flex-shrink-0">
-                          <a href="javascript:void(0);" class="badge bg-secondary-subtle text-secondary edit-item-list me-1" (click)="editReply(index)"><i class="ph-pencil align-baseline me-1"></i> Edit</a>
-                          <a href="javascript:void(0);" class="badge bg-danger-subtle text-danger" (click)="removeReply(index)"><i class="ph-trash align-baseline"></i></a>
-                        </div> -->
                       </div>
-                      <h6 class="reply-title fs-md">{{reply.user.firstName}}</h6>
+                      <img [src]="reply?.userDetails?.imageProfile" alt="" id="user-img" class="avatar-lg rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
+                      <h6 class="reply-title fs-md">{{reply.userDetails?.firstName}}</h6>
                       <p class="reply-desc mb-0">{{reply.text}}</p>
-                      <div class="d-flex flex-grow-1 gap-2 reply-gallery-img" *ngIf="reply.user">
-                        <a href="javascript:void(0);" class="avatar-md mt-3" *ngFor="let img of reply.user.imageProfile">
-                          <div class="avatar-title bg-light rounded">
-                            <img [src]="img" alt="img-1.png" class="product-img avatar-sm">
-                          </div>
-                        </a>
-                      </div>
                     </div>
-                  </li>
-                </ul>
+                  </li>                </ul>
               </ngx-simplebar>
             </div>
           </div>

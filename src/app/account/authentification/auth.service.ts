@@ -60,6 +60,11 @@ removeUserFromLocalStorage(): void {
     let url = `${this.baseUrl}`;
     return this.http.get<any>(`${url}/loadUserByEmail?email=${email}`);
   }
+
+  loadUserById(id: string): Observable<any> {
+    let url = `${this.baseUrl}`;
+    return this.http.get<any>(`${url}/loadUserById?id=${id}`);
+  }
   updateUser(email: string, updatedUser: any): Observable<any> {
     let url = `${this.baseUrl}`;
     return this.http.put(`${url}/updateUser?email=${email}`, updatedUser);
