@@ -18,6 +18,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import {SimplebarAngularModule} from "simplebar-angular";
 import {SharedModule} from "../../../../shared/shared.module";
 import {forkJoin, Observable} from "rxjs";
+import {ReplyService} from "../../service/reply.service";
 
 @Component({
   selector: 'app-offre-details',
@@ -49,12 +50,20 @@ export class OffreDetailsComponent implements OnInit {
   submitted: boolean = false;
   deleteId: any;
 
+  role!:any;
+  userConnectedString: string | null = localStorage.getItem('currentUser');
+  userConnected: any = this.userConnectedString ? JSON.parse(this.userConnectedString) : null;
+
   files: File[] = [];
   @ViewChild('addReview', { static: false }) addReview?: ModalDirective;
   @ViewChild('removeItemModal', { static: false }) removeItemModal?: ModalDirective;
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
 
   @ViewChild('editOfferModalTemplate') editOfferModalTemplate!: TemplateRef<any>;
+
+  @ViewChild('addReply', { static: false }) addReply?: ModalDirective;
+  replyForm!: UntypedFormGroup;
+  uploadedReplyFiles: any[] = [];
   editModalRef?: BsModalRef;
   editedOffer: any;
 
@@ -65,11 +74,15 @@ export class OffreDetailsComponent implements OnInit {
     private http: HttpClient,
     private offreService: OffreService,
     private authService: AuthService,
+
+    private replyService: ReplyService,
     private router: Router,
     private modalService: BsModalService,
   ) {}
 
   ngOnInit(): void {
+    this.role=this.userConnected.role[0];
+
     this.route.params.subscribe(params => {
       this.offerId = params['id'];
     });
@@ -90,6 +103,11 @@ export class OffreDetailsComponent implements OnInit {
       content: ['', [Validators.required]],
       rate: ['', [Validators.required]],
       img: ['']
+    });
+
+    this.replyForm = this.formBuilder.group({
+      text: ['', [Validators.required]],
+      filePath: ['']
     });
 
     this.productdetail = details;
@@ -131,13 +149,10 @@ export class OffreDetailsComponent implements OnInit {
 
   uploadedFiles: any[] = [];
 
-  onUploadSuccess(event: any) {
-    setTimeout(() => {
-      this.uploadedFiles.push(event[0]);
-      this.reviewForm.controls['img'].setValue(this.uploadedFiles.map(file => file.dataURL));
-    }, 0);
-  }
+  isEnterpriseUser(): boolean {
+    return this.role == 'ROLE_ENTREPRISE';
 
+  }
   removeFile(event: any) {
     this.uploadedFiles.splice(this.uploadedFiles.indexOf(event), 1);
   }
@@ -195,9 +210,6 @@ export class OffreDetailsComponent implements OnInit {
       (offerDetails: any) => {
         this.offerDetails = offerDetails;
         console.log("Offer details : ", offerDetails);
-
-        // Load users for replies
-        this.loadUsersForReplies(offerDetails.replies);
       },
       (error: any) => {
         console.error("Error fetching offer details", error);
@@ -287,5 +299,43 @@ export class OffreDetailsComponent implements OnInit {
     );
     console.log("Offer edited successfully", this.editedOffer);
     this.editModalRef?.hide();
+  }
+
+  openReplyModal() {
+    this.replyForm.reset();
+    this.uploadedReplyFiles = [];
+    this.addReply?.show();
+  }
+
+  onUploadSuccess(event: any) {
+    setTimeout(() => {
+      this.uploadedReplyFiles.push(event[0]);
+      this.replyForm.controls['filePath'].setValue(this.uploadedReplyFiles.map(file => file.dataURL));
+    }, 0);
+  }
+
+  saveReply() {
+    if (this.currentUserId !== null) {
+      const replyData = this.replyForm.value;
+      const formData = new FormData();
+      formData.append('text', replyData.text);
+      if (this.uploadedReplyFiles.length > 0) {
+        formData.append('file', this.uploadedReplyFiles[0]); // Assuming single file upload
+      }
+      this.replyService.createReply(this.currentUserId, this.offerId, formData, this.uploadedReplyFiles[0]).subscribe(
+        (response: any) => {
+          console.log("Reply added successfully", response);
+          this.addReply?.hide();
+          this.replyForm.reset();
+          this.uploadedReplyFiles = [];
+          this.getOfferDetails();
+        },
+        (error: any) => {
+          console.error("Error adding reply", error);
+        }
+      );
+    } else {
+      console.error("Current user ID is null or invalid.");
+    }
   }
 }

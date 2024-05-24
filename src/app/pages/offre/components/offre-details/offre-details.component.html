@@ -171,6 +171,9 @@
               <button type="button" class="btn btn-primary" (click)="editOffer(offerDetails)">Edit Offer</button>
               <button type="button" class="btn btn-danger w-100" (click)="confirmDelete()"><i class="ph-trash align-middle me-1"></i>Delete</button>
             </div>
+            <div class="mt-4" *ngIf="isEnterpriseUser()">
+              <button type="button" class="btn btn-primary" (click)="openReplyModal()">Add Reply</button>
+            </div>
           </div>
         </div><!--end col-->
       </div><!--end col-->
@@ -187,55 +190,11 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header d-flex flex-wrap align-items-center gap-3 mb-2">
-        <h6 class="card-title flex-grow-1 mb-0">Replies</h6>
         <div class="flex-shrink-0">
-          <div dropdown class="dropdown card-header-dropdown">
-            <a dropdownToggle class="text-muted dropdown-btn" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              This Month <i class="mdi mdi-chevron-down ms-1"></i>
-            </a>
-            <div *bsDropdownMenu class="dropdown-menu dropdown-menu-end dropdown-responsive">
-              <a class="dropdown-item" href="javascript:void(0);">Today</a>
-              <a class="dropdown-item" href="javascript:void(0);">Yesterday</a>
-              <a class="dropdown-item" href="javascript:void(0);">Last 7 Days</a>
-              <a class="dropdown-item" href="javascript:void(0);">Last 30 Days</a>
-              <a class="dropdown-item" href="javascript:void(0);">This Month</a>
-              <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-            </div>
-          </div>
         </div>
         <div class="flex-shrink-0">
          <!-- <button type="button" class="btn btn-primary" (click)="addReply.show()"><i class="ph-plus-circle align-middle me-1"></i> Add Reply</button> -->
         </div>
-      </div>
-      <div class="card-body">
-        <div class="row gy-3">
-          <div class="col-lg-12">
-            <div>
-              <ngx-simplebar class="me-lg-n3 pe-lg-4" style="max-height: 500px;">
-                <ul class="list-unstyled mb-0" id="reply-list">
-                  <li class="reply-list py-2" *ngFor="let reply of offerDetails?.replies; let index = index">
-                    <div class="border border-dashed rounded p-3">
-                      <div class="hstack flex-wrap gap-3 mb-4">
-                        <div class="badge rounded-pill bg-info-subtle text-info mb-0">
-                          <i class="mdi mdi-comment"></i> <span class="rate-num">{{reply.rating}}</span>
-                        </div>
-                        <div class="vr"></div>
-                        <div class="flex-grow-1">
-                          <p class="mb-0"><a href="javascript:void(0);">{{reply.userDetails?.firstName}}</a></p>
-                        </div>
-                        <div class="flex-shrink-0">
-                          <span class="text-muted fs-13 mb-0">{{ formatDate(reply.creationDate)}}</span>
-                        </div>
-                      </div>
-                      <img [src]="reply?.userDetails?.imageProfile" alt="" id="user-img" class="avatar-lg rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
-                      <h6 class="reply-title fs-md">{{reply.userDetails?.firstName}}</h6>
-                      <p class="reply-desc mb-0">{{reply.text}}</p>
-                    </div>
-                  </li>                </ul>
-              </ngx-simplebar>
-            </div>
-          </div>
-        </div><!--end row-->
       </div>
     </div>
   </div><!--end col-->
@@ -361,5 +320,33 @@
   </div>
 </ng-template>
 
-<!-- Button to trigger edit modal -->
-<button type="button" class="btn btn-primary" (click)="editOffer(offerDetails)">Edit Offer</button>
+
+<!-- addReply Modal -->
+<div bsModal #addReply="bs-modal" class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addReplyLabel">Add Reply</h1>
+        <button type="button" class="btn-close" (click)="addReply.hide()"></button>
+      </div>
+      <form (ngSubmit)="saveReply()" [formGroup]="replyForm" class="tablelist-form" novalidate autocomplete="off">
+        <div class="modal-body">
+          <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
+          <input type="hidden" id="id-field">
+          <div class="mb-3">
+            <label for="replyText-input" class="form-label">Reply Text <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="replyText-input" formControlName="text" rows="4" placeholder="Enter reply" required></textarea>
+          </div>
+          <div>
+            <label class="form-label">Attach File</label>
+            <dropzone class="dropzone" [config]="dropzoneConfig" (success)="onUploadSuccess($event)"></dropzone>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost-danger" (click)="addReply.hide()"><i class="ph-x align-middle me-1"></i> Close</button>
+          <button type="submit" class="btn btn-primary">Submit Reply</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
