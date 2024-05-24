@@ -20,9 +20,10 @@ export class OffreClientComponent implements OnInit, OnDestroy {
   uploadProgress: number = 0;
   uploadedImage: string | null = null;
   progressValue: number = 0;
- 
-uploadedImageName: string | null = null; 
-uploadedImageSize: number | null = null; 
+
+  uploadedImageName: string | null = null;
+  uploadedImageSize: number | null = null;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -57,7 +58,7 @@ uploadedImageSize: number | null = null;
     if (this.userId !== null && this.offreForm.valid) {
       this.offerSubscription = this.offreService.addOffer(this.userId, formData).subscribe({
         next: (data) => {
-          console.log('Offre enregistrée avec succès : ', data); 
+          console.log('Offre enregistrée avec succès : ', data);
           this.findAll();
           this.showModal?.hide();
           this.offreForm.reset();
@@ -72,7 +73,10 @@ uploadedImageSize: number | null = null;
   findAll(): void {
     this.offerSubscription = this.offreService.getAllOffers().subscribe({
       next: (data) => {
-        this.listOffres = data; 
+        this.listOffres = data.map((offre: any) => ({
+          ...offre,
+          replyCount: offre.replies ? offre.replies.length : 0
+        }));
         console.log(this.listOffres);
       },
       error: (error) => {
@@ -92,7 +96,6 @@ uploadedImageSize: number | null = null;
     });
   }
 
-
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -101,8 +104,8 @@ uploadedImageSize: number | null = null;
       setTimeout(() => {
         this.uploadProgress = 100;
         this.uploadedImage = URL.createObjectURL(file);
-      }, 1000); 
-     
+      }, 1000);
+
       if (file) {
         this.uploadedImage = file;
         this.uploadedImageName = file.name;
@@ -110,11 +113,8 @@ uploadedImageSize: number | null = null;
       }
     }
   }
+
   removeUploadedImage(): void {
     this.uploadedImage = null;
-    
   }
- /*  removeFile(event: any): void {
-    this.uploadedFiles.splice(this.uploadedFiles.indexOf(event), 1);
-  } */
 }

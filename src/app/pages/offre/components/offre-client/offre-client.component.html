@@ -20,6 +20,7 @@
                                 <th scope="col">Date d'expriration</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Image</th>
+                                <th scope="col">Reply Number</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -32,7 +33,8 @@
                                 <th scope="col">{{offre.offerStatus}}</th>
                                 <td> <img [src]="offre.image" alt="" id="user-img" class="avatar-lg rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
                                 </td>
-                                <td>
+                              <td>{{offre.replyCount}}</td>
+                              <td>
                                     <div dropdown class="dropdown">
                                         <button dropdownToggle class="btn btn-subtle-secondary btn-sm btn-icon">
                                             <i class="bi bi-three-dots-vertical"></i>

@@ -19,6 +19,7 @@ import {SimplebarAngularModule} from "simplebar-angular";
 import {SharedModule} from "../../../../shared/shared.module";
 import {forkJoin, Observable} from "rxjs";
 import {ReplyService} from "../../service/reply.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-offre-details',
@@ -69,6 +70,7 @@ export class OffreDetailsComponent implements OnInit {
 
 
   constructor(
+    private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private formBuilder: UntypedFormBuilder,
     private http: HttpClient,
@@ -337,5 +339,30 @@ export class OffreDetailsComponent implements OnInit {
     } else {
       console.error("Current user ID is null or invalid.");
     }
+  }
+
+  isImage(filePath: string): boolean {
+    const extension = this.getFileExtension(filePath);
+    return extension === 'png' || extension === 'jpg' || extension === 'jpeg' || extension === 'gif' || extension === 'avif';
+  }
+
+  getFileExtension(filePath: string | undefined | null): string {
+    if (filePath) {
+      const parts = filePath.split(';');
+      if (parts.length > 0) {
+        const contentType = parts[0].split('/')[1];
+        if (contentType) {
+          return contentType;
+        }
+      }
+    }
+    return '';
+  }
+  getFileName(filePath: string): string {
+    if (filePath) {
+      const parts = filePath.split('/');
+      return parts.pop() || '';
+    }
+    return '';
   }
 }

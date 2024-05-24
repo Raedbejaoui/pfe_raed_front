@@ -180,7 +180,35 @@
     </div><!--end row-->
     <div class="card">
       <div class="card-body p-4">
+        <div *ngIf="isCurrentUserOwner()" class="replies-section">
+          <h3>Replies</h3>
+          <div *ngIf="offerDetails.replies.length > 0; else noReplies">
+            <div *ngFor="let reply of offerDetails.replies" class="reply">
+              <div class="reply-header">
+                <strong>{{ reply.user.name }}</strong>
+              </div>
+              <p *ngIf="reply.text">{{ reply.text }}</p>
+              <!-- Check if the reply has a file attachment -->
+              <div *ngIf="reply.filePath" class="file-attachment">
+                <!-- Determine file type and display accordingly -->
+                <ng-container *ngIf="isImage(reply.filePath); then imageContent; else pdfContent"></ng-container>
+                <ng-template #imageContent>
+                  <a [href]="reply.filePath" target="_blank">
+                    <img [src]="reply.filePath" alt="Image Attachment" class="img-fluid">
+                  </a>
 
+                  <a [href]="reply.filePath" target="_blank" class="btn btn-primary" download="file">Download image</a>
+                </ng-template>
+                <ng-template #pdfContent>
+                  <a [href]="reply.filePath" target="_blank" class="btn btn-primary" download="file">Download PDF</a>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+          <ng-template #noReplies>
+            <p>No replies yet.</p>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div><!--end col-->
