@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from "../../core/services/post.service";
+import { CommentData ,PostService } from "../../core/services/post.service";
 import { SharedModule } from "../../shared/shared.module";
 import { CommonModule, NgForOf } from "@angular/common";
 import {Router, RouterLink, RouterModule} from "@angular/router";
@@ -25,6 +25,7 @@ declare var bootstrap: any;
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit {
+
   posts: any[] = [];
   user: string | null = localStorage.getItem('currentUser');
   searchInput: string = '';
@@ -34,8 +35,28 @@ export class PostComponent implements OnInit {
     title: '',
     body: ''
   };
+  newComment: CommentData = {
+    content: '',
+    createdAt: new Date(),
+    user: '',
+    post: {
+      id: '',
+      title: '',
+      body: '',
+      likes: 0,
+      img: '',
+      date: new Date(),
+      comments: [],
+      user: null
+    }
+  };
+
+  commentsToShow = 3;
+
+  loadMoreComments() {
+    this.commentsToShow += 3;
+  }
   selectedFile: File | null = null;
-  newComment: any;
   editMode: boolean = false;
   editPostId: string | null = null;
 
@@ -52,6 +73,7 @@ export class PostComponent implements OnInit {
   loadPosts(): void {
     this.postService.getPosts().subscribe((data: any[]) => {
       this.posts = data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      console.log(this.posts);
     });
   }
 
@@ -148,4 +170,41 @@ export class PostComponent implements OnInit {
       }
     }
   }
-}
+  addComment(postId: string, comment: CommentData) {
+    if (this.user && comment.content) {
+      const user = JSON.parse(this.user);
+      if(user.role[0] === 'ROLE_CLIENT'){
+        user.role = 'CLIENT';
+      }else if(user.role[0] === 'ROLE_ADMIN'){
+        user.role = 'ADMIN';
+      }
+      else if(user.role[0] === 'ROLE_ENTREPRISE'){
+        user.role = 'ENTREPRISE';
+      }
+      comment.user = user;
+      comment.post = { id: postId, title: '', body: '', likes: 0, img: '', date: new Date(), comments: [], user: user }; // Set the 'post' field to a 'Post' object with the 'id' field set to 'postId'
+      console.log(user.id, postId, comment);
+      this.postService.addComment(user.id, postId, comment).subscribe({
+        next: () => {
+          this.loadPosts(); // Refresh the posts
+          this.newComment = {
+            content: '',
+            createdAt: new Date(),
+            user: '',
+            post: {
+              id: '',
+              title: '',
+              body: '',
+              likes: 0,
+              img: '',
+              date: new Date(),
+              comments: [],
+              user: null
+            }
+          };        },
+        error: error => {
+          console.error('There was an error!', error);
+        }
+      });
+    }
+  }}

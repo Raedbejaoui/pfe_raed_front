@@ -28,7 +28,10 @@
     <div class="card">
       <!-- Settings icon and menu -->
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="card-title">{{ post.title }}</h5>
+        <div>
+          <h5 class="card-title">{{ post.title }}</h5>
+          <h6 class="card-subtitle text-muted">Date: {{ post.date | date:'shortDate' }}</h6>
+        </div>
         <div class="dropdown" *ngIf="user && parseJson(user).id === post.user.id">
           <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-three-dots-vertical"></i>
@@ -44,7 +47,16 @@
         <img [src]="post.img" alt="Post image" class="img-fluid">
         <h6 class="card-subtitle mb-2 text-muted">Author: {{ post.user.firstName }}</h6>
         <p class="card-text">{{ post.body }}</p>
-        <p class="card-text"><small class="text-muted">Date: {{ post.date | date:'shortDate' }}</small></p>
+      </div>
+      <div class="comments">
+        <h6>Comments:</h6>
+        <div *ngFor="let comment of post.comments" class="border p-3 my-2">
+          <p><strong>{{ comment.user.firstName }}</strong>: {{ comment.content }}</p>
+        </div>
+        <form (ngSubmit)="addComment(post.id, newComment)" class="comment-form">
+          <input type="text" [(ngModel)]="newComment.content" name="content" placeholder="Your comment" required class="comment-input">
+          <button type="submit" class="comment-button">Add Comment</button>
+        </form>
       </div>
     </div>
   </div>

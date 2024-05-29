@@ -2,10 +2,22 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
-interface PostData {
+export interface PostData {
+  id: string;
   title: string;
   body: string;
-  imgPath?: string;
+  likes: number;
+  img: string;
+  date: Date;
+  comments: CommentData[];
+  user: any;
+}
+
+export interface CommentData {
+  content: string;
+  createdAt: Date;
+  user: string;
+  post: PostData;
 }
 @Injectable({
   providedIn: 'root'
@@ -35,5 +47,18 @@ export class PostService {
 
   deletePost(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+
+  addComment(userId: string, postId: string, comment: CommentData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/comments/add/${userId}/${postId}`, comment);
+  }
+
+  getCommentsByPost(postId: string): Observable<CommentData[]> {
+    return this.http.get<CommentData[]>(`${this.baseUrl}/comments/${postId}`);
+  }
+
+  deleteComment(commentId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/comments/${commentId}`);
   }
 }
