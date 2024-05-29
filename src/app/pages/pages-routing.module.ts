@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ElasticsearchComponent} from "./elasticsearch/elasticsearch.component";
+import {PostComponent} from "./post/post.component";
 
 const routes: Routes = [
   {
@@ -57,6 +58,9 @@ const routes: Routes = [
   },
   {
     path: 'elasticSearch', component: ElasticsearchComponent
+  },
+  {
+    path: 'post', component: PostComponent
   }
 ];
 

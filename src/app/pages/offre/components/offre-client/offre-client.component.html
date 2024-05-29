@@ -28,8 +28,8 @@
                             <tr>
                                 <th scope="row"><a href="javascript:void(0);" class="fw-medium">{{offre.id}}</a></th>
                                 <td>{{offre.title}}</td>
-                                <td>{{offre.creationDate}}</td>
-                                <td>{{offre.deadLine}}</td>
+                                <td>{{formatDate(offre.creationDate)}}</td>
+                                <td>{{formatDate(offre.deadLine)}}</td>
                                 <th scope="col">{{offre.offerStatus}}</th>
                                 <td> <img [src]="offre.image" alt="" id="user-img" class="avatar-lg rounded-circle object-fit-cover border-0 img-thumbnail user-profile-image">
                                 </td>

@@ -12,7 +12,6 @@ export class OffreService {
 
   private baseUrl = 'http://localhost:8081/Offer'; // L'URL de base de l'API
 
-  // Méthode pour ajouter une offre pour un utilisateur donné
   addOffer(userId: string, offer: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/addoffer/${userId}`, offer);
   }

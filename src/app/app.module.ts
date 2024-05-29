@@ -48,6 +48,7 @@ import { InstructorEffects } from './store/Learning-instructor/instructor.effect
 import { CustomerEffects } from './store/Customer/customer.effects';
 import { studentsEffects } from './store/students/student.effcts';
 import { CourcesEffects } from './store/Learning-cources/cources.effect';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -109,6 +110,8 @@ export function createTranslateLoader(http: HttpClient): any {
 
 
 
+  
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

@@ -324,6 +324,7 @@ export class OffreDetailsComponent implements OnInit {
       if (this.uploadedReplyFiles.length > 0) {
         formData.append('file', this.uploadedReplyFiles[0]); // Assuming single file upload
       }
+      if(this.uploadedReplyFiles.length > 0) {
       this.replyService.createReply(this.currentUserId, this.offerId, formData, this.uploadedReplyFiles[0]).subscribe(
         (response: any) => {
           console.log("Reply added successfully", response);
@@ -335,7 +336,10 @@ export class OffreDetailsComponent implements OnInit {
         (error: any) => {
           console.error("Error adding reply", error);
         }
-      );
+      );}
+      else {
+        console.log("No file selected for upload.");
+      }
     } else {
       console.error("Current user ID is null or invalid.");
     }

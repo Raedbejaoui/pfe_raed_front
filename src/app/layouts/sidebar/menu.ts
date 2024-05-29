@@ -55,7 +55,7 @@ export const MENU1 = {
             id: 4,
             label: 'Les Actualités  ',
             icon: 'bx bx-receipt',
-            link: 'offres/offre_client',
+            link: 'post',
         },
       {
         id: 9,

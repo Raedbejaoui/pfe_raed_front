@@ -19,11 +19,11 @@ enterprises: any[] = [];
   getEnterprises(): void {
     const searchPhrase = this.searchInput.nativeElement.value;
 
-    if (!searchPhrase|| searchPhrase.length < 3) {
+    /*if (!searchPhrase|| searchPhrase.length < 3) {
       // If the search phrase is empty, clear the enterprises array
       this.enterprises = [];
       return;
-    }
+    }*/
 
     this.entrepriseService.searchEnterprises(searchPhrase).subscribe(
       (data) => {
