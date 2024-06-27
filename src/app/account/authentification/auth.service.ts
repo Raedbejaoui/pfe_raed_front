@@ -63,7 +63,7 @@ removeUserFromLocalStorage(): void {
 
   loadUserById(id: string): Observable<any> {
     let url = `${this.baseUrl}`;
-    return this.http.get<any>(`${url}/loadUserById?id=${id}`);
+    return this.http.get<any>(`${url}/loadUserById/${id}`);
   }
   updateUser(email: string, updatedUser: any): Observable<any> {
     let url = `${this.baseUrl}`;
@@ -86,6 +86,11 @@ uploadImageProfile(email: string, file: File): Observable<any> {
   formData.append('file', file);
 
   return this.http.post<any>(`${url}/uploadImageProfile/${email}`, formData);
+}
+
+getAllUsers(): Observable<any> {
+  let url = `${this.baseUrl}`;
+  return this.http.get<any>(`${url}/allUsers`);
 }
 
 }

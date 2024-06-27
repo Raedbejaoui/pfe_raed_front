@@ -1,0 +1,65 @@
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  height: 500px;
+  width: 300px;
+  overflow: auto;
+
+  .card-body {
+    h6 {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 1em;
+      color: #333;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+
+      &:hover {
+        color: #0056b3;
+      }
+    }
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+.search-field-container {
+  .search-box {
+    width: 50%;
+    margin: 0 auto;
+    height: auto;
+
+    input {
+      width: 100%;
+      padding: 10px 40px 10px 10px; // Increase the right padding
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 30px; // Adjust the position to align with the increased input field padding
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}

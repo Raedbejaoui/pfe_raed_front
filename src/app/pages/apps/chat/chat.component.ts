@@ -76,7 +76,7 @@ export class ChatComponent {
     }
 
     /**
-     * 
+     *
    * Returns form
    */
     get form() {
@@ -323,7 +323,7 @@ export class ChatComponent {
     }
 
     /**
-     * Delete Chat Contact Data 
+     * Delete Chat Contact Data
      */
     delete(event: any) {
         event.target.closest('li')?.remove();

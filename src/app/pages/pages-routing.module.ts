@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ElasticsearchComponent} from "./elasticsearch/elasticsearch.component";
 import {PostComponent} from "./post/post.component";
+import {ChatComponent} from "./chat/chat.component";
+import {ReclamationComponent} from "./reclamation/reclamation.component";
 
 const routes: Routes = [
   {
@@ -61,6 +63,14 @@ const routes: Routes = [
   },
   {
     path: 'post', component: PostComponent
+  },
+  {
+    path: 'chat/:id', component: ChatComponent
+  },{
+    path: 'chat', component: ChatComponent
+  },
+  {
+    path:'reclamation', component:ReclamationComponent
   }
 ];
 

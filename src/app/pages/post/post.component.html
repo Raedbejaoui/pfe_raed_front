@@ -24,13 +24,13 @@
 
 <!-- Posts List -->
 <div class="container mt-4">
-  <div class="card mb-4 border border-2 w-50 mx-auto" *ngFor="let post of posts; let i = index">
+  <div class="card mb-4 border border-2 w-50 mx-auto post-card" *ngFor="let post of posts; let i = index">
     <div class="card">
       <!-- Settings icon and menu -->
       <div class="card-header d-flex justify-content-between align-items-center">
         <div>
           <h5 class="card-title">{{ post.title }}</h5>
-          <h6 class="card-subtitle text-muted">Date: {{ post.date | date:'shortDate' }}</h6>
+          <h6 class="card-subtitle text-muted">Date: {{ post.date | date:'short' }}</h6>
         </div>
         <div class="dropdown" *ngIf="user && parseJson(user).id === post.user.id">
           <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
@@ -44,14 +44,18 @@
       </div>
 
       <div class="card-body">
-        <img [src]="post.img" alt="Post image" class="img-fluid">
-        <h6 class="card-subtitle mb-2 text-muted">Author: {{ post.user.firstName }}</h6>
-        <p class="card-text">{{ post.body }}</p>
+        <div class="user-info">
+          <img [src]="post.user.imageProfile" alt="User image" class="img-fluid user-image">
+          <h6 class="card-subtitle mb-2 text-muted">Author: {{ post.user.firstName }}</h6>
+        </div>
+        <img [src]="post.img" alt="Post image" class="img-fluid post-image">
+        <p class="card-text post-text">{{ post.body }}</p>
       </div>
       <div class="comments">
         <h6>Comments:</h6>
         <div *ngFor="let comment of post.comments" class="border p-3 my-2">
-          <p><strong>{{ comment.user.firstName }}</strong>: {{ comment.content }}</p>
+          <img [src]="comment.user.imageProfile" alt="User image" class="img-fluid user-image">          <p><strong>{{ comment.user.firstName }}</strong>: {{ comment.content }}</p>
+          <p class="text-muted">{{ comment.createdAt | date:'short' }}</p>
         </div>
         <form (ngSubmit)="addComment(post.id, newComment)" class="comment-form">
           <input type="text" [(ngModel)]="newComment.content" name="content" placeholder="Your comment" required class="comment-input">

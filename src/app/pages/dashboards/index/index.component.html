@@ -7,31 +7,13 @@
                         <!-- card -->
                         <div class="card shadow-none border-end-md border-bottom rounded-0 mb-0">
                             <div class="card-body">
-                                <div dropdown container="body" class="dropdown float-end">
-                                    <a dropdownToggle class="text-reset dropdown-btn" href="javascript:void(0);">
-                                        <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                    </a>
-                                    <div *bsDropdownMenu class="dropdown-menu dropdown-menu-end dropdown-responsive">
-                                        <a class="dropdown-item" href="javascript:void(0);">Today</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Week</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Current Year</a>
-                                    </div>
-                                </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
-                                        <i class="ph-wallet"></i>
-                                    </span>
+<i class="ph ph-article"></i>                                    </span>
                                 </div>
                                 <div class="mt-4">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Total Revenue</p>
-                                    <h4 class="fw-semibold mb-3">$<span class="counter-value" [countUp]="750.36">0</span>M </h4>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5 class="text-success fs-xs mb-0">
-                                            <i class="ri-arrow-right-up-line fs-sm align-middle"></i> +19.07 %
-                                        </h5>
-                                        <p class="text-muted mb-0">than last week</p>
-                                    </div>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Posts</p>
+                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="postCount">0</span> </h4>
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
@@ -40,32 +22,15 @@
                         <!-- card -->
                         <div class="card shadow-none border-bottom rounded-0 mb-0">
                             <div class="card-body">
-                                <div dropdown class="dropdown float-end">
-                                    <a dropdownToggle class="text-reset dropdown-btn" href="javascript:void(0);">
-                                        <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                    </a>
-                                    <div *bsDropdownMenu class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="javascript:void(0);">Today</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Week</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Current Year</a>
-                                    </div>
-                                </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-dark-subtle text-dark rounded-circle fs-3">
                                         <i class="ph-bag"></i>
                                     </span>
                                 </div>
                                 <div class="mt-4">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Orders</p>
-                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="684">0</span>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Offers</p>
+                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="offerCount">0</span>
                                     </h4>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5 class="text-success fs-xs mb-0">
-                                            <i class="ri-arrow-right-up-line fs-sm align-middle"></i> +8.13 %
-                                        </h5>
-                                        <p class="text-muted mb-0">than last week</p>
-                                    </div>
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
@@ -74,32 +39,14 @@
                         <!-- card -->
                         <div class="card shadow-none border-end-md rounded-0 mb-0">
                             <div class="card-body">
-                                <div dropdown class="dropdown float-end">
-                                    <a dropdownToggle class="text-reset dropdown-btn" href="javascript:void(0);">
-                                        <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                    </a>
-                                    <div *bsDropdownMenu class="dropdown-menu dropdown-menu-end dropdown-responsive">
-                                        <a class="dropdown-item" href="javascript:void(0);">Today</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Week</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Current Year</a>
-                                    </div>
-                                </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-light text-body rounded-circle fs-3">
-                                        <i class="ph-eye"></i>
-                                    </span>
+<i class="ph ph-question"></i>                               </span>
                                 </div>
                                 <div class="mt-4">
-                                    <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Product Views</p>
-                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="113870">0</span>
+                                    <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Reclamations</p>
+                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="reclamationCount">0</span>
                                     </h4>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5 class="text-danger fs-xs mb-0">
-                                            <i class="ri-arrow-right-down-line fs-sm align-middle"></i> +2.01 %
-                                        </h5>
-                                        <p class="text-muted mb-0">than last week</p>
-                                    </div>
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
@@ -108,17 +55,6 @@
                         <!-- card -->
                         <div class="card shadow-none border-top border-top-md-0 rounded-0 mb-0">
                             <div class="card-body">
-                                <div dropdown class="dropdown float-end">
-                                    <a dropdownToggle class="text-reset dropdown-btn" href="javascript:void(0);">
-                                        <span class="text-muted fs-lg"><i class="mdi mdi-dots-vertical align-middle"></i></span>
-                                    </a>
-                                    <div *bsDropdownMenu class="dropdown-menu dropdown-menu-end">
-                                        <a class="dropdown-item" href="javascript:void(0);">Today</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Week</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">Current Year</a>
-                                    </div>
-                                </div>
                                 <div class="avatar-sm">
                                     <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
                                         <i class="ph-users-three"></i>
@@ -126,14 +62,8 @@
                                 </div>
                                 <div class="mt-4">
                                     <p class="text-uppercase fw-medium text-muted text-truncate fs-sm">Customers</p>
-                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="2500">0</span>k
+                                    <h4 class="fw-semibold mb-3"><span class="counter-value" [countUp]="userCount">0</span>
                                     </h4>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <h5 class="text-success fs-xs mb-0">
-                                            <i class="ri-arrow-right-up-line fs-sm align-middle"></i> +10.42 %
-                                        </h5>
-                                        <p class="text-muted mb-0">than last week</p>
-                                    </div>
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
@@ -142,126 +72,57 @@
             </div>
         </div>
     </div><!--end col-->
-    <div class="col-xl-8">
-        <div class="card">
-            <div class="row g-0">
-                <div class="col-xl-9">
-                    <div class="card-header border-0 align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
-                        <div>
-                            <button type="button" class="btn btn-subtle-secondary btn-sm me-1" (click)="changeRevenue()">
-                                ALL
-                            </button>
-                            <button type="button" class="btn btn-subtle-secondary btn-sm me-1" (click)="changeRevenue()">
-                                1M
-                            </button>
-                            <button type="button" class="btn btn-subtle-secondary btn-sm me-1" (click)="changeRevenue()">
-                                6M
-                            </button>
-                            <button type="button" class="btn btn-subtle-primary btn-sm" (click)="changeRevenue()">
-                                1Y
-                            </button>
-                        </div>
-                    </div><!-- end card header -->
-                    <div class="card-body ps-0">
-                        <div class="w-100">
-                            <div id="market-overview" class="apex-charts" dir="ltr">
-                                <apx-chart [series]="marketverviewChart.series" [chart]="marketverviewChart.chart" [plotOptions]="marketverviewChart.plotOptions" [stroke]="marketverviewChart.stroke" [fill]="marketverviewChart.fill" [colors]="marketverviewChart.colors" [legend]="marketverviewChart.legend" [xaxis]="marketverviewChart.xaxis" [dataLabels]="marketverviewChart.dataLabels" [grid]="marketverviewChart.grid" dir="ltr"></apx-chart>
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div>
-                <div class="col-xl-3">
-                    <div class="card-body border-start-xl border-top border-top-xl-0 border-2 h-100">
-                        <div>
-                            <p class="text-muted mb-2">Budget (USD)</p>
-                            <h4>$750.36M <small class="text-success fs-sm fw-normal"><i class="ph-arrow-up align-baseline"></i> 2.17%</small></h4>
-                            <p class="text-muted">Budget in than last years</p>
-                            <div class="mx-3">
-                                <div id="mini-chart-6" class="apex-charts" dir="ltr">
-                                    <apx-chart [series]="mini6Chart.series" [chart]="mini6Chart.chart" [stroke]="mini6Chart.stroke" [colors]="mini6Chart.colors" dir="ltr"></apx-chart>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <p class="text-muted mb-2">Payouts (USD)</p>
-                            <h4>$7,45,123 <small class="text-danger fs-sm fw-normal"><i class="ph-arrow-down align-baseline"></i> -1.36%</small></h4>
-                            <p class="text-muted">Payouts in than last years</p>
-                            <div class="mx-3">
-                                <div id="mini-chart-7" class="apex-charts" dir="ltr">
-                                    <apx-chart [series]="mini7Chart.series" [chart]="mini7Chart.chart" [stroke]="mini7Chart.stroke" [colors]="mini7Chart.colors" dir="ltr"></apx-chart>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <button type="button" class="btn btn-primary w-100" (click)="addAmount.show()">Add
-                                Amount</button>
-                        </div>
-                    </div>
-                </div>
+  <div class="col-xl-8">
+    <div class="card">
+      <div class="row g-0">
+        <div class="col-xl-9">
+          <div class="card-header border-0 align-items-center d-flex">
+            <h4 class="card-title mb-0 flex-grow-1">Reclamation traitée</h4>
+          </div><!-- end card header -->
+          <div class="card-body ps-0">
+            <div class="w-100">
+              <div id="market-overview" class="apex-charts" dir="ltr">
+                <apx-chart
+                  [series]="marketverviewChart.series"
+                  [chart]="marketverviewChart.chart"
+                  [plotOptions]="marketverviewChart.plotOptions"
+                  [stroke]="marketverviewChart.stroke"
+                  [fill]="marketverviewChart.fill"
+                  [colors]="marketverviewChart.colors"
+                  [legend]="marketverviewChart.legend"
+                  [xaxis]="marketverviewChart.xaxis"
+                  [dataLabels]="marketverviewChart.dataLabels"
+                  [grid]="marketverviewChart.grid"
+                  dir="ltr">
+                </apx-chart>
+              </div>
             </div>
-        </div><!-- end card -->
-    </div><!-- end col -->
+          </div><!-- end card body -->
+        </div>
+      </div>
+    </div><!-- end card -->
+  </div><!-- end col -->
+
 </div><!--end row-->
 
 <div class="row">
     <div class="col-xl-6">
         <!-- card -->
         <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Sales by Countries</h4>
-                <div class="flex-shrink-0">
-                    <button type="button" class="btn btn-subtle-primary btn-sm">
-                        Export Report
-                    </button>
-                </div>
-            </div><!-- end card header -->
-
-            <!-- card body -->
-            <div class="card-body">
-
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div id="chartsdiv" style="height: 360px"></div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="mb-4">
-                            <h6 class="text-muted mb-3 fw-medium fs-xs text-uppercase">Compared to last month</h6>
-                            <h3><span class="counter-value" [countUp]="53736" data-target="53736"></span> <small class="text-muted fw-normal fs-sm ms-1">Sales</small></h3>
-                        </div>
-                        <div>
-                            <ul class="list-unstyled vstack gap-2">
-                                <li class="p-2 rounded">
-                                    <i class="ri-checkbox-blank-circle-fill text-primary align-bottom me-1"></i> United
-                                    States <span class="float-end">15,364</span>
-                                </li>
-                                <li class="bg-light-subtle p-2 rounded">
-                                    <i class="ri-checkbox-blank-circle-fill text-secondary align-bottom me-1"></i>
-                                    Greenland <span class="float-end">12,387</span>
-                                </li>
-                                <li class="p-2 rounded">
-                                    <i class="ri-checkbox-blank-circle-fill text-info align-bottom me-1"></i> Serbia
-                                    <span class="float-end">9,123</span>
-                                </li>
-                                <li class="bg-light-subtle p-2 rounded">
-                                    <i class="ri-checkbox-blank-circle-fill text-success align-bottom me-1"></i> Russia
-                                    <span class="float-end">7,108</span>
-                                </li>
-                                <li class="p-2 rounded">
-                                    <i class="ri-checkbox-blank-circle-fill text-danger align-bottom me-1"></i> Brazil
-                                    <span class="float-end">6,731</span>
-                                </li>
-                                <li class="bg-light-subtle p-2 rounded">
-                                    <i class="ri-checkbox-blank-circle-fill text-warning align-bottom me-1"></i> Sydney
-                                    <span class="float-end">3,023</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-header">
+              <h4 class="card-title">Offer Status</h4>
             </div>
-            <!-- end card body -->
+            <div class="card-body">
+              <div id="offer-status-chart" class="apex-charts" *ngIf="offerStatusChart.series.length > 0">
+                <apx-chart
+                  [series]="offerStatusChart.series"
+                  [chart]="offerStatusChart.chart"
+                  [labels]="offerStatusChart.labels"
+                  [legend]="offerStatusChart.legend"
+                  [responsive]="offerStatusChart.responsive"
+                  [colors]="offerStatusChart.colors">
+                </apx-chart>
+              </div>            </div>
         </div>
         <!-- end card -->
     </div>
