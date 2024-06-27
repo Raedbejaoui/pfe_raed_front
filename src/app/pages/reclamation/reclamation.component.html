@@ -1,0 +1,95 @@
+<div class="container">
+  <h2 class="title">Add Reclamation</h2>
+  <button mat-raised-button color="primary" (click)="openAddReclamationDialog()">Add Reclamation</button>
+
+  <mat-table *ngIf="reclamations.length > 0" [dataSource]="reclamations">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let reclamation">{{ reclamation.id }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+      <mat-cell *matCellDef="let reclamation">{{ reclamation.type }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let reclamation">{{ reclamation.description }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="etat">
+      <mat-header-cell *matHeaderCellDef>Etat</mat-header-cell>
+      <mat-cell *matCellDef="let reclamation">{{ reclamation.etat }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="User">
+      <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+      <mat-cell *matCellDef="let reclamation">{{ reclamation.user.firstName }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let reclamation">
+        <button mat-icon-button color="warn" (click)="deleteReclamation(reclamation.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="openUpdateReclamationDialog(reclamation)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" *ngIf="isAdmin" (click)="openUpdateEtatDialog(reclamation)">
+          <mat-icon>update</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
+<ng-template #addReclamationDialog let-dialogRef="dialogRef">
+  <h2 mat-dialog-title>Add Reclamation</h2>
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <input matInput [(ngModel)]="reclamation.type">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="reclamation.description"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-button (click)="addReclamation(userId); dialogRef.close()">Add</button>
+  </mat-dialog-actions>
+</ng-template>
+<ng-template #updateEtatDialog let-dialogRef="dialogRef">
+  <h2 mat-dialog-title>Update Etat</h2>
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Etat</mat-label>
+      <mat-select [(value)]="reclamation.etat">
+        <mat-option value="EN_ATTENTE">EN_ATTENTE</mat-option>
+        <mat-option value="ACCEPTE">ACCEPTE</mat-option>
+        <mat-option value="REFUSE">REFUSE</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-button (click)="updateEtatReclamation(reclamation.id, reclamation.etat); dialogRef.close()">Update</button>
+  </mat-dialog-actions>
+</ng-template>
+<ng-template #updateReclamationDialog let-dialogRef="dialogRef">
+  <h2 mat-dialog-title>Update Reclamation</h2>
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <input matInput [(ngModel)]="reclamation.type">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="reclamation.description"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">Cancel</button>
+    <button mat-button (click)="updateReclamation(reclamation.id); dialogRef.close()">Update</button>
+  </mat-dialog-actions>
+</ng-template>
