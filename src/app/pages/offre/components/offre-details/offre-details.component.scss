@@ -1,0 +1,86 @@
+/* Custom Styles */
+.custom-card-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 600px;
+}
+
+.product-img-slider {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-thumbnail-slider .slide img,
+.product-nav-slider .nav-slide-item img {
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-nav-slider .nav-slide-item:hover img {
+  transform: scale(1.05);
+}
+
+.deadline-highlight button {
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.status-highlight {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.btn-custom {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #0056b3;
+}
+
+.btn-custom1 {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom1:hover {
+  background-color: #c82333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sticky-side-div {
+    position: static;
+  }
+
+  .product-img-slider,
+  .product-nav-slider {
+    margin-bottom: 1rem;
+  }
+}
+.status-en-cours {
+  background-color: orange;
+  color: white; /* Change the text color to white for better contrast */
+}
+.card:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.card:first-child .field {
+  flex: 1;
+  font-family: 'Arial', sans-serif; /* Change the font family */
+  font-size: 1.2em; /* Change the font size */
+}

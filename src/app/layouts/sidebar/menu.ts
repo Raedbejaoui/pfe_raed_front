@@ -9,12 +9,14 @@ export const MENU1 = {
             label: 'MENUITEMS.MENU.TEXT',
             isTitle: true
         },
-        {
-            id: 2,
-            label: 'dashboard',
-            icon: 'bx bx-line-chart',
-            link: 'forms/select',
-        },
+
+
+      {
+        id: 3,
+        label: 'Tous Les offres ',
+        icon: 'bx bx-receipt',
+        link: 'offres/offre_admin',
+      },
 
       {
         id: 9,
@@ -22,15 +24,51 @@ export const MENU1 = {
         icon: 'ph-calendar',
         link: 'elasticSearch',
       },
+      {
+        id: 4,
+        label: 'Les Actualités  ',
+        icon: 'bx bx-receipt',
+        link: 'post',
+      },
+      {
+        id: 15 ,
+        label: 'Reclammation',
+        icon: 'ph-calendar',
+        link: 'reclamation',
+      },
+      {
+        id: 10,
+        label: 'Liste des utilisateurs',
+        icon: 'ph-calendar',
+        link: 'pages/ListeUsers',
+      }
     ],
 
     EntrepriseMenu: [
+      {
+        id: 1,
+        label: 'MENUITEMS.MENU.TEXT',
+        isTitle: true
+      },
+      {
+        id: 7,
+        label: " Tous Les appels  d'offres" ,
+        icon: 'bx bx-receipt',
+        link: 'offres/offre_entreprise',
 
-        {
-            id: 1,
-            label: 'MENUITEMS.MENU.TEXT',
-            isTitle: true
-        },
+      },
+      {
+        id: 8,
+        label: "Mes appels d'offres" ,
+        icon: 'bx bx-receipt',
+        link: 'offres/mes_offres',
+      },
+      {
+        id: 4,
+        label: 'Les Actualités  ',
+        icon: 'bx bx-receipt',
+        link: 'post',
+      },
       {
         id: 9,
         label: 'ElasticSearch',
@@ -38,24 +76,52 @@ export const MENU1 = {
         link: 'elasticSearch',
       },
 
-
+      {
+        id: 10,
+        label: 'Entreprises Recommendées pour vous',
+        icon: 'ph-calendar',
+        link: 'recommendation',
+      },
+      {
+        id: 11 ,
+        label: 'Chat',
+        icon: 'ph-calendar',
+        link: 'chat',
+      },
+      {
+        id: 15 ,
+        label: 'Reclammation',
+        icon: 'ph-calendar',
+        link: 'reclamation',
+      }
     ],
 
 
     clientMenu: [
-
+      {
+        id: 1,
+        label: 'MENUITEMS.MENU.TEXT',
+        isTitle: true
+      },
         {
             id: 4,
-            label: 'Mes offres ',
+            label: " Tous Les appels d'offres ",
             icon: 'bx bx-receipt',
             link: 'offres/offre_client',
 
         },
+      {
+        id: 8,
+        label: "Mes appels d'offres" ,
+        icon: 'bx bx-receipt',
+        link: 'offres/mes_offres',
+      },
+
         {
             id: 4,
             label: 'Les Actualités  ',
             icon: 'bx bx-receipt',
-            link: 'offres/offre_client',
+            link: 'post',
         },
       {
         id: 9,
@@ -63,6 +129,25 @@ export const MENU1 = {
         icon: 'ph-calendar',
         link: 'elasticSearch',
       },
+      {
+        id: 10,
+        label: 'Entreprises Recommendées pour vous',
+        icon: 'ph-calendar',
+        link: 'recommendation',
+      },
+{
+        id: 11 ,
+        label: 'Chat',
+        icon: 'ph-calendar',
+        link: 'chat',
+      },
+      {
+        id: 15 ,
+        label: 'Reclammation',
+        icon: 'ph-calendar',
+        link: 'reclamation',
+      }
+
     ],
 
 };

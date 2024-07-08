@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <!-- Display the list of chats -->
+      <div class="list-group">
+        <ng-container *ngFor="let chat of chats">
+          <a *ngIf="chat && chat.participants && chat.participants.length >= 2"
+             class="list-group-item list-group-item-action"
+             [class.active]="selectedChatId === chat.idChat"
+             (click)="selectChat(chat.idChat)">
+            Chat with {{ userNameMap[chat.participants[1] === senderId ? chat.participants[0] : chat.participants[1]] }}
+          </a>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="card">
+        <div class="card-header">
+          Chat with {{ userNameMap[selectedChat.participants[1] === senderId ? selectedChat.participants[0] : selectedChat.participants[1]] }}
+        </div>
+        <div class="card-body">
+          <!-- Display the messages of the selected chat -->
+          <div class="chat-messages" *ngIf="messages.length > 0" #chatMessages>
+            <div *ngFor="let message of messages" class="chat-message" [class.mine]="message.senderId === senderId">
+              <div class="message-bubble">
+                <div class="message-content">{{ message.content }}</div>
+                <div class="message-timestamp">{{ message.timestamp | date:'short' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="input-group">
+            <input type="text" [(ngModel)]="messageToSend" class="form-control" placeholder="Type your message..." (keyup.enter)="sendMessage(messageToSend)">
+            <button (click)="sendMessage(messageToSend)" class="btn btn-primary">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

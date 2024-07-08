@@ -6,13 +6,16 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmRoleComponent } from './confirm-role/confirm-role.component';
 import { RegisterClientComponent } from './register-client/register-client.component';
+import {PassResetComponent} from "./auth/pass-reset/pass-reset.component";
 
 const routes: Routes = [
+
   {
     path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
+
   {
-    path: 'login',
+  path: 'login',
     component: LoginComponent
   },
   {
@@ -20,13 +23,14 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path:'register_Client', 
+    path:'register_Client',
     component:RegisterClientComponent
-  },   
+  },
   {
     path:'confirm_role',
     component:ConfirmRoleComponent
   }
+
 ];
 
 @NgModule({

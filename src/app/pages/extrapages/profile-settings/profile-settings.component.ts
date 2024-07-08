@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import {AuthService} from "../../../account/authentification/auth.service";
-
+import { latLng, tileLayer } from 'leaflet';
+import {UserProfileService} from "../../../core/services/user.service";
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
@@ -13,7 +14,20 @@ import {AuthService} from "../../../account/authentification/auth.service";
 
 export class ProfileSettingsComponent {
 
+  showMap = false;
+  options = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: 'markersLayers' })
+    ],
+    zoom: 5,
+    center: latLng(46.879966, -121.726909)
+  };
 
+  onMapClick(e: any) {
+    const lat = e.latlng.lat;
+    const lng = e.latlng.lng;
+    this.userForm.patchValue({ adresse: `Lat: ${lat}, Lng: ${lng}` });
+  }
   breadCrumbItems!: Array<{}>;
   fieldTextType!: boolean;
   fieldTextType1!: boolean;
@@ -28,31 +42,51 @@ export class ProfileSettingsComponent {
   userForm!: FormGroup;
   SignUpEntreprise!:any;
   SignUpClient!:any;
-
+  domains: string[] = [];
   role!:any;
 
-  constructor(private  authService: AuthService,private formBuilder: FormBuilder) { }
+  constructor( private userService: UserProfileService,private authService: AuthService,private formBuilder: FormBuilder) { }
   userConnectedString: string | null = localStorage.getItem('currentUser');
   userConnected: any = this.userConnectedString ? JSON.parse(this.userConnectedString) : null;
 
   ngOnInit(): void {
-
     this.userForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
       phone: [''],
       email: [''],
       name: [''],
-      domaine: [''],
+      imageProfile: [''],
+      domaine: [this.user?.domaine || ''],
       description: [''],
       cin: [''],
       adresse: [''],
 
 
+
+
     });
+
     /**
      * BreadCrumb
      */
+
+this.userService.getAllDomains().subscribe(
+  (data) => {
+    // Éliminez les domaines vides
+    const nonEmptyDomains = data.filter(domain => domain && domain.trim() !== '');
+
+    // Éliminez les doublons
+    this.domains = nonEmptyDomains.filter((domain, index, self) =>
+      index === self.findIndex((d) => (
+        d === domain
+      ))
+    );
+  },
+  (error) => {
+    console.error('Error:', error);
+  }
+);
     this.email=this.userConnected.email;
     this.role=this.userConnected.role[0];
     this.authService.loadUserByEmail(this.userConnected.email).subscribe(
@@ -86,6 +120,7 @@ export class ProfileSettingsComponent {
 
   updateUserBasedOnRole(): void {
    const  user = this.userForm.value;
+   this.user.domaine = user.domaine;
     user.imageProfile = this.userConnected.imageProfile; // Add the base64 string to the user object
 
 
@@ -113,22 +148,24 @@ export class ProfileSettingsComponent {
       }
     );
 
-  } else if (this.role == 'ROLE_ENTREPRISE') {
-    this.authService.updateEntreprise(this.userConnected.email,user).subscribe(
-      (data) => {
-        console.log('Entreprise updated:', data);
-        // Handle the updated entreprise data here
-        location.reload();
-      },
+  }
+    else if (this.role == 'ROLE_ENTREPRISE') {
+      this.authService.updateEntreprise(this.userConnected.email, user).subscribe(
+        (data) => {
+          console.log('User updated:', data);
+          location.reload();
+          // Handle the updated user data here
+        },
+        (error) => {
+          console.error('Error:', error);
+          // Handle the error here
+        }
 
-      (error) => {
-        console.error('Error:', error);
-        // Handle the error here
-      }
     );
 
   }
 }
+
 
   imageURL: any;
 fileChange(event: any, id: any) {
@@ -193,5 +230,3 @@ fileChange(event: any, id: any) {
   }
 
 }
-
-

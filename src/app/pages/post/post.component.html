@@ -1,0 +1,95 @@
+<!-- Start Breadcrumbs -->
+<app-breadcrumbs title="  Actualités" [breadcrumbItems]="breadcrumbItems"></app-breadcrumbs>
+<!-- End Breadcrumbs -->
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-3 order-last order-md-first me-auto">
+            <div class="search-box">
+              <input type="text" [(ngModel)]="searchInput" (input)="getPosts()" class="form-control search" placeholder="rechercher une actualité ">
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+          <div class="col-lg-3 order-last">
+            <button class="btn btn-primary" (click)="openModal()">Créer une Actualité</button>
+          </div><!--end col-->
+        </div><!--end row-->
+      </div>
+    </div>
+  </div><!--end row-->
+</div><!--end col-->
+
+<!-- Posts List -->
+<div class="container mt-4">
+  <div class="card mb-4 border border-2 w-50 mx-auto post-card" *ngFor="let post of posts; let i = index">
+    <div class="card">
+      <!-- Settings icon and menu -->
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="card-title">{{ post.title }}</h5>
+          <h6 class="card-subtitle text-muted">Date: {{ post.date | date:'short' }}</h6>
+        </div>
+        <div class="dropdown" *ngIf="user && parseJson(user).id === post.user.id">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <ul class="dropdown-menu" [attr.aria-labelledby]="'dropdownMenuButton' + i">
+            <li><a class="dropdown-item" (click)="editPost(post)">modifier</a></li>
+            <li><a class="dropdown-item" (click)="deletePost(post.id)">Supprimer</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="user-info">
+          <img [src]="post.user.imageProfile" alt="User image" class="img-fluid user-image">
+          <h6 class="card-subtitle mb-2 text-muted">Author: {{ post.user.firstName }}</h6>
+        </div>
+        <img [src]="post.img" alt="Post image" class="img-fluid post-image">
+        <p class="card-text post-text">{{ post.body }}</p>
+      </div>
+      <div class="comments">
+        <h6>Commentaires:</h6>
+        <div *ngFor="let comment of post.comments" class="border p-3 my-2">
+          <img [src]="comment.user.imageProfile" alt="User image" class="img-fluid user-image">          <p><strong>{{ comment.user.firstName }}</strong>: {{ comment.content }}</p>
+          <p class="text-muted">{{ comment.createdAt | date:'short' }}</p>
+        </div>
+        <form (ngSubmit)="addComment(post.id, newComment)" class="comment-form">
+          <input type="text" [(ngModel)]="newComment.content" name="content" placeholder="Your comment" required class="comment-input">
+          <button type="submit" class="comment-button">Ajouter Commentaire</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createPostModalLabel">{{ editMode ? 'Editer Actualité' : 'Créer Actualité' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="title" class="form-label">Titre</label>
+            <input type="text" id="title" [(ngModel)]="newPost.title" name="title" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="body" class="form-label">Contenu</label>
+            <textarea id="body" [(ngModel)]="newPost.body" name="body" class="form-control" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="imgFile" class="form-label">Image</label>
+            <input type="file" id="imgFile" (change)="onFileSelected($event)" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary">{{ editMode ? 'Editér Actualité' : 'Créer Actualité' }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

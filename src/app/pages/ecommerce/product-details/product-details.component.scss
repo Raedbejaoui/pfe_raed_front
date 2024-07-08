@@ -1,0 +1,63 @@
+/* Ensure both cards have the same height and structure */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Sticky side div for the left column */
+.sticky-side-div {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 800;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+/* Adjust typography and padding */
+.card-body p,
+.card-body h4,
+.card-body h5,
+.card-body button {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.card-body .btn {
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+/* Ensure input fields and text areas take full width */
+.form-control {
+  width: 100%;
+}
+
+.modal-header h1 {
+  font-size: 18px;
+}
+
+.modal-footer .btn {
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+/* Image slider adjustments */
+.product-img-slider .slide img {
+  max-height: 200px; /* Adjust based on your desired height */
+  object-fit: cover;
+}
+
+/* Align buttons and text */
+.d-flex.justify-content-end .btn {
+  margin: 0 5px;
+}

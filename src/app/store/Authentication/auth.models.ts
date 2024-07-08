@@ -6,4 +6,7 @@ export class User {
   lastName?: string;
   token?: string;
   email?: string;
+  imageProfile?: string;
+  role?: string;
+  phone?: string;
 }

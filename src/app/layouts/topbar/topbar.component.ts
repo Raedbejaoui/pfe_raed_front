@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Inject, ViewChild } from '@angular/core';
+import {Component, Output, EventEmitter, Inject, ViewChild, OnInit} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { EventService } from 'src/app/core/services/event.service';
 import { LanguageService } from 'src/app/core/services/language.service';
@@ -14,14 +14,16 @@ import { changeMode } from 'src/app/store/layouts/layout-action';
 import { getLayoutmode } from 'src/app/store/layouts/layout-selector';
 import { TokenStorageService } from 'src/app/core/services/token-storage.service';
 import {AuthService} from "../../account/authentification/auth.service";
+import {NotificationService} from "../../core/services/notification.service";
+import { Notification } from 'src/app/models/notification.model'; // Adjust the path to match the actual location of your Notification model
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss']
 })
-export class TopbarComponent {
-
+export class TopbarComponent implements OnInit{
+  notifications: Notification[] = [];
   country: any;
   selectedItem!: any;
 
@@ -54,19 +56,42 @@ export class TopbarComponent {
   totalNotify: number = 0;
   newNotify: number = 0;
   readNotify: number = 0;
-
+  userId: string | null;
   constructor(@Inject(DOCUMENT) private document: any,
     private eventService: EventService,
     public languageService: LanguageService,
     private authService: AuthService,
+
     private router: Router,
+    private notificationService: NotificationService,
     public _cookiesService: CookieService,
     public store: Store<RootReducerState>,
-    private TokenStorageService: TokenStorageService) { }
+    private TokenStorageService: TokenStorageService) {this.userId =this.authService.getCurrentUserId() }
   userConnectedString: string | null = localStorage.getItem('currentUser');
   userConnected: any = this.userConnectedString ? JSON.parse(this.userConnectedString) : null;
+
+  checkNotification(notification: Notification): void {
+    this.notificationService.markNotificationAsRead(notification.id)
+      .subscribe(() => {
+        notification.isRead = true;
+      });
+  }
+
   ngOnInit(): void {
-    this.role=this.userConnected.role[0];
+
+
+
+  if (this.userId) {
+    this.notificationService.getUnreadNotifications(this.userId)
+      .subscribe(notifications => {
+        this.notifications = notifications;
+      });
+  }
+
+
+
+
+      this.role=this.userConnected.role[0];
     console.log('Role:',this.role);
     this.authService.loadUserByEmail(this.userConnected.email).subscribe(
       (data) => {

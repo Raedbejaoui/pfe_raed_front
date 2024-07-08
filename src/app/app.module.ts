@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RxStompService } from '@stomp/ng2-stompjs';
+
 // auth
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -106,9 +108,9 @@ export function createTranslateLoader(http: HttpClient): any {
     AngularFireAuthModule
   ],
   providers: [
-  
-   
-    
+    RxStompService,
+
+
   ],
   bootstrap: [AppComponent]
 })

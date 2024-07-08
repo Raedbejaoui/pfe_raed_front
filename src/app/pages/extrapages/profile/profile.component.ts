@@ -1,6 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
 import {AuthService} from "../../../account/authentification/auth.service";
+import {ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -13,12 +15,12 @@ import {AuthService} from "../../../account/authentification/auth.service";
 export class ProfileComponent {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-
+ id : string | null = null;
   user!:any;
 
   role!:any;
 
-  constructor( private authService: AuthService) { }
+  constructor(private route :ActivatedRoute, private authService: AuthService) { }
 
 
 
@@ -29,6 +31,7 @@ export class ProfileComponent {
   userConnectedString: string | null = localStorage.getItem('currentUser');
   userConnected: any = this.userConnectedString ? JSON.parse(this.userConnectedString) : null;
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
     /**
      * BreadCrumb
      */
@@ -54,4 +57,6 @@ export class ProfileComponent {
   Followbtn(ev: any) {
     ev.target.closest('button').classList.toggle('active')
   }
+
+
 }

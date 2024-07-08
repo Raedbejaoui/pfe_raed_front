@@ -3,7 +3,7 @@
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
       <div class="d-flex gap-2">
         <button type="button" class="btn btn-primary" (click)="showModal.show()">Ajouter</button>
-      </div>  
+      </div>
 </div>
 <br>
 <div class="row">
@@ -14,53 +14,57 @@
                     <table class="table align-middle table-nowrap mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">Titre</th>
                                 <th scope="col">Date creation</th>
                                 <th scope="col">Date d'expriration</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Image</th>
+
+                                <th scope="col">Reply Number</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody  *ngFor="let offre of listOffres">
-                            <tr>
-                                <th scope="row"><a href="javascript:void(0);" class="fw-medium">{{offre.id}}</a></th>
-                                <td>{{offre.title}}</td>
-                                <td>{{offre.creationDate}}</td>
-                                <td>{{offre.deadLine}}</td>
-                                <th scope="col">{{offre.offerStatus}}</th>
-                                <td>{{offre.image}}</td>
-                                <td>
-                                    <div dropdown class="dropdown">
+                      <tbody>
+                      <tr *ngFor="let offre of listOffres">
+                        <ng-container *ngIf="offre.offerStatus !== 'ACCEPTED'">
+                          <td>{{offre.title}}</td>
+                          <td>{{formatDate(offre.creationDate)}}</td>
+                          <td>{{ offre.deadline | date:'yyyy-MM-dd' }}</td>
+
+
+  <td [ngClass]="{
+        'text-warning': offre.offerStatus === 'EN_COURS',
+        'text-success': offre.offerStatus === 'ACCEPTED',
+        'text-danger': offre.offerStatus === 'rejected'
+      }">{{ offre.offerStatus }}</td>
+
+                          <td>{{offre.replyCount}}</td>
+                          <td>
+                            <div dropdown class="dropdown">
                                         <button dropdownToggle class="btn btn-subtle-secondary btn-sm btn-icon">
                                             <i class="bi bi-three-dots-vertical"></i>
                                         </button>
 
                                         <ul *bsDropdownMenu class="dropdown-menu dropdown-menu-end">
-                                            <li> <a class="dropdown-item" [routerLink]="'/ecommerce/offre-details/' + offre.id" href="javascript:void(0);">
-                                                <i class="ph-eye align-middle me-1"></i> 
-                                                Afficher
-                                                </a></li>
+                                            <li><a class="dropdown-item" [routerLink]="['/offres/offre_details', offre.id]" href="javascript:void(0);"><i class="ph-eye align-middle me-1"></i> View</a></li>
                                             <li><a class="dropdown-item edit-item-btn"><i class="ph-pencil align-middle me-1"></i>
                                                     Edit</a></li>
                                             <li><a class="dropdown-item remove-item-btn" href="javascript:void(0);"  (click)="Delete(offre.id)"><i class="ph-trash align-middle me-1"></i> Remove</a></li>
                                         </ul>
-                                    </div>
-                                </td> 
-                                
-                            </tr> 
-                        </tbody>
+                            </div>
+                          </td>
+                        </ng-container>
+                      </tr>
+                      </tbody>
                     </table>
                     <br><br><br> <br><br><br>
                 </div>
 
             </div>
-           
+
         </div>
     </div>
 
-   
+
 </div>
 
 <!--Ajouter offre client-->
@@ -85,12 +89,12 @@
                         <label for="product-title-input" class="form-label">Titre</label>
                         <input type="text" id="product-title-input" formControlName="title" class="form-control" placeholder="Enter product title" required>
                     </div>
-                     
-                     
+
+
                         <div class="mb-3">
                             <label class="form-label">Images offre</label>
                             <dropzone  class="dropzone" [config]="dropzoneConfig" [message]="'Cliquez pour télécharger.'" (success)="onUploadSuccess($event)"></dropzone>
-    
+
                             @if (uploadedFiles) {
                             <ul class="list-unstyled mb-0" id="dropzone-preview">
                                 @for ( file of uploadedFiles; track $index) {
@@ -116,7 +120,7 @@
                                 </li>
                             }
                             </ul>
-                        } 
+                        }
                         </div>
                     <div class="mb-3">
                         <label for="product-stock-input" class="form-label">Date d'expriration</label>
@@ -144,7 +148,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-center">Ajouter une offre</h5>
+          <h5 class="modal-title text-center">Ajouter une appel d'offre</h5>
           <button type="button" class="btn-close" (click)="showModal.hide()"></button>
         </div>
         <form [formGroup]="offreForm" (submit)="SaveOffre()">
@@ -157,36 +161,34 @@
               <label for="description" class="form-label">Description</label>
               <textarea id="description" formControlName="description" class="form-control" required></textarea>
             </div>
-            <div class="mb-3">
-              <label for="deadLine" class="form-label">Date d'expiration</label>
-              <input type="date" id="deadLine" formControlName="deadLine" class="form-control" required>
-            </div>
+           <div class="mb-3">
+  <label for="deadLine" class="form-label">Date d'expiration</label>
+<input type="date" id="deadline" formControlName="deadline" class="form-control" required></div>
             <div class="mb-3">
               <label for="image" class="form-label">Image</label>
               <div class="dropzone-container">
-                <input type="file" #fileInput id="image" (change)="onFileChange($event)" class="form-control" style="display: none;" required>
-                <label class="dropzone" for="image">
+               <input type="file" #fileInput id="image" (change)="onFileChange($event)" class="form-control" style="display: none;" multiple required>                <label class="dropzone" for="image">
                   <span class="upload-text">Cliquez ici pour télécharger</span>
                   <div class="progress mt-3" *ngIf="uploadProgress > 0 && uploadProgress < 100">
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progressValue" aria-valuemin="0" aria-valuemax="100" [style.width.%]="progressValue"></div>
                       </div>
-                      
+
                   </div>
                 </label>
               </div>
             </div>
-            <div class="mb-3" *ngIf="uploadedImage">
-                <div class="uploaded-image-container">
-                  <div class="uploaded-image">
-                    <img [src]="uploadedImage" alt="Uploaded Image" class="img-fluid">&nbsp;
-                    <p>{{ uploadedImageName }}</p>
-                  </div>
-                  <div class="uploaded-image-right">
-                    <button type="button" class="btn btn-danger mt-2" (click)="removeUploadedImage()">Supprimer</button>
-                  </div>
-                </div>
-              </div>
+    <div class="mb-3" *ngFor="let uploadedFile of uploadedFiles">
+  <div class="uploaded-image-container">
+    <div class="uploaded-image">
+      <img [src]="uploadedFile.url" alt="Uploaded Image" class="img-fluid">&nbsp;
+      <p>{{ uploadedFile.file.name }}</p>
+    </div>
+    <div class="uploaded-image-right">
+      <button type="button" class="btn btn-danger mt-2" (click)="removeUploadedImage(uploadedFile)">Supprimer</button>
+    </div>
+  </div>
+</div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="showModal.hide()">Annuler</button>
@@ -196,4 +198,3 @@
       </div>
     </div>
   </div>
-  

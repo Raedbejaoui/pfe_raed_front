@@ -30,18 +30,15 @@ export class RegisterComponent {
   ) { }
 
   ngOnInit(): void {
-    this.signupForm = this.formBuilder.group({
-      email: ['', [Validators.required]],
-      name: ['', Validators.required],
-      domaine: ['', Validators.required],
-      password: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      adresse: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      site: ['', [Validators.required]],
-      role: ['ENTREPRISE', [Validators.required]],
-    
-    });
+  this.signupForm = this.formBuilder.group({
+  email: ['', [Validators.required, Validators.email]],
+  name: ['', [Validators.required, Validators.pattern('^[a-zA-Z]*$')]],
+  password: ['', [Validators.required, Validators.minLength(6)]],
+  phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+  role: ['ENTREPRISE', [Validators.required]],
+});
+
+
 
   }
 
@@ -55,15 +52,15 @@ export class RegisterComponent {
     const formData = this.signupForm.value;
     this.authEntreprise.registerEntreprise(formData).subscribe({
       next: () => {
-      //  this.router.navigate(['/account/login']);
+       this.router.navigate(['/account/login']);
       },
       error: (err) => {
         this.router.navigate(['/account/login']);
       }
     });
   }
-  
-  
+
+
 
 
 

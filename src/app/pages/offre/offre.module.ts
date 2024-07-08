@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MesOffresComponent } from './components/mes-offres/mes-offres.component';
 
 // Modules ngx-bootstrap
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -26,6 +27,7 @@ import { OffreAdminComponent } from './components/offre-admin/offre-admin.compon
 import { OffreEntrepriseComponent } from './components/offre-entreprise/offre-entreprise.component';
 import { DropzoneModule, DROPZONE_CONFIG, DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { provideNgxMask } from 'ngx-mask';
+import {DecimalPipe} from "@angular/common";
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post', // Changez ceci par votre URL de téléversement
@@ -34,14 +36,15 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 };
 
 @NgModule({
-  declarations: [OffreClientComponent, OffreAdminComponent, OffreEntrepriseComponent],
+  declarations: [OffreClientComponent, OffreAdminComponent, OffreEntrepriseComponent, MesOffresComponent],
   imports: [
     CommonModule,
     SharedModule,
     OffreRoutingModule,
     FormsModule,
-   
-   
+
+
+
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     PaginationModule.forRoot(),
@@ -55,11 +58,14 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SlickCarouselModule,
     NgApexchartsModule,
     NgxSliderModule,
+    ReactiveFormsModule,
     CKEditorModule,
     LeafletModule,
     DropzoneModule
   ],
   providers: [
+    DatePipe,
+    DecimalPipe,
     provideNgxMask(), // Fournisseur pour ngx-mask
     { // Fournisseur pour la configuration de ngx-dropzone-wrapper
       provide: DROPZONE_CONFIG,

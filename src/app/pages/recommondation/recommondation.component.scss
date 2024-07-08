@@ -1,0 +1,49 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.stars {
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  margin-right: 2px;
+  color: gold;
+}
+.company-imageProfile {
+  max-width: 100px;
+  max-height: 100px;
+}.company-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+.col-lg-4 {
+  flex: 0 0 auto;
+  width: 33.33333%;
+}
+
+.card {
+  margin: 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 16px;
+}
+  .score {
+  color: green;
+}
+  .company-imageProfile {
+  max-width: 100px;
+  max-height: 100px;
+}
+

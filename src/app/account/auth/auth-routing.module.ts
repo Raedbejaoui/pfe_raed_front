@@ -32,6 +32,7 @@ const routes: Routes = [
     path: 'lockscreen',
     component: LockscreenComponent,
   },
+
   {
     path: 'logout',
     component: LogoutComponent,

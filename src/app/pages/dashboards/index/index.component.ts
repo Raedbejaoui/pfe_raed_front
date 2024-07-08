@@ -14,6 +14,10 @@ import { Store } from '@ngrx/store';
 import { fetchorderData,  fetchsalesData } from 'src/app/store/Ecommerce/ecommerce.actions';
 import { selectData, selectorderata, selectproductData } from 'src/app/store/Ecommerce/ecommerce-selector';
 import { products } from './data';
+import {AuthService} from "../../../account/authentification/auth.service";
+import {OffreService} from "../../offre/service/offre.service";
+import {PostService} from "../../../core/services/post.service";
+import {ReclamationService} from "../../../core/services/reclamation.service";
 
 @Component({
   selector: 'app-index',
@@ -30,14 +34,27 @@ export class IndexComponent {
   salesList: any;
   orderList: any;
   produtlist: any;
+  users : any;
+  posts: any;
+  offers : any;
+  reclamations : any;
 
   @ViewChild('productModal', { static: false }) productModal?: ModalDirective;
   productdetail: any;
   sortValue: any = 'Order Date';
+   userCount: any;
+   postCount: any;
+   reclamationCount: any;
+   offerCount: any;
+  offerStatusChart: any;
 
-  constructor(public store: Store) { }
+  constructor(public store: Store, private authService : AuthService,
+              private offerService: OffreService,
+              private postService: PostService,
+              private reclamationService: ReclamationService) { }
 
   ngOnInit(): void {
+    this.loadAll();
     this._marketverviewChart('["--tb-primary", "--tb-secondary"]');
     this._columnChart('["--tb-primary", "--tb-light"]');
     this._mini6Chart('["--tb-primary"]');
@@ -105,7 +122,25 @@ export class IndexComponent {
       pointSeries.pushDataItem({ latitude: 56.1304, longitude: -106.3468 });
       pointSeries.pushDataItem({ latitude: 71.7069, longitude: -42.6043 });
     }, 1000);
-
+    this.offerStatusChart = {
+      series: [],
+      chart: {
+        width: 380,
+        type: 'pie',
+      },
+      labels: [],
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }]
+    };
 
   }
 
@@ -498,5 +533,93 @@ export class IndexComponent {
   showproductModal(id: any) {
     this.productdetail = this.produtlist[id]
     this.productModal?.show()
+  }
+
+  loadAll() {
+    this.authService.getAllUsers().subscribe((data) => {
+      this.users = data;
+      this.userCount = this.users.length;
+      console.log('Number of users:', this.userCount);
+    });
+
+    this.postService.getPosts().subscribe((data) => {
+      this.posts = data;
+      this.postCount = this.posts.length;
+      console.log('Number of posts:', this.postCount);
+    });
+
+    this.reclamationService.getAllReclamations().subscribe((data) => {
+      this.reclamations = data;
+      this.reclamationCount = this.reclamations.length;
+      console.log('Number of reclamations:', this.reclamationCount);
+
+      let treatedCount = 0;
+      let untreatedCount = 0;
+      for (let reclamation of this.reclamations) {
+        if (reclamation.etat === 'ACCEPTE' || reclamation.etat === 'REFUSE') {
+          treatedCount++;
+        } else if (reclamation.etat === 'EN_ATTENTE') {
+          untreatedCount++;
+        }
+      }
+
+      this.marketverviewChart.series = [
+        {
+          name: 'Reclamations',
+          data: [treatedCount, untreatedCount]
+        }
+      ];
+
+      this.marketverviewChart.xaxis = {
+        categories: ['Treated', 'Untreated']
+      };
+
+      this.marketverviewChart.yaxis = {
+        tickAmount: Math.max(treatedCount, untreatedCount),
+        min: 0,
+        max: Math.max(treatedCount, untreatedCount)
+      };
+      this.marketverviewChart.plotOptions = {
+        bar: {
+          colors: {
+            ranges: [
+              {
+                from: 0,
+                to: 0,
+                color: '#00E396'
+              },
+              {
+                from: 1,
+                to: 1,
+                color: '#FF4560'
+              }
+            ]
+          }
+        }
+      };
+
+    });
+
+    this.offerService.getAllOffers().subscribe((data) => {
+      this.offers = data;
+      this.offerCount = this.offers.length;
+      console.log('Number of offers:', this.offerCount);
+      let enCoursCount = 0;
+      let acceptedCount = 0;
+      let refusedCount = 0;
+      for (let offer of this.offers) {
+        if (offer.offerStatus === 'EN_COURS') {
+          enCoursCount++;
+        } else if (offer.offerStatus === 'ACCEPTED') {
+          acceptedCount++;
+        } else if (offer.offerStatus === 'REFUSED') {
+          refusedCount++;
+        }
+      }
+
+      // Update the pie chart data
+      this.offerStatusChart.series = [enCoursCount, acceptedCount, refusedCount];
+      this.offerStatusChart.labels = ['EN_COURS', 'ACCEPTED', 'REFUSED'];
+    });
   }
 }

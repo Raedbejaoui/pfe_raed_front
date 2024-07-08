@@ -26,12 +26,14 @@ import { FaqsComponent } from './faqs/faqs.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermConditionsComponent } from './term-conditions/term-conditions.component';
+import {LeafletModule} from "@asymmetrik/ngx-leaflet";
 
 @NgModule({
   declarations: [
     StarterComponent,
     ProfileComponent,
     ProfileSettingsComponent,
+
     ContactsComponent,
     TimelineComponent,
     FaqsComponent,
@@ -43,6 +45,7 @@ import { TermConditionsComponent } from './term-conditions/term-conditions.compo
     CommonModule,
     ExtraPagesRoutingModule,
     SharedModule,
+    LeafletModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ProgressbarModule.forRoot(),

@@ -1,0 +1,19 @@
+<h2 style="color: black; font-weight: bold;">Les Entreprises Recommendées pour vous :</h2>
+
+<div class="row">
+  <div class="col-lg-4" *ngFor="let company of recommendedCompanies">
+    <div class="card">
+      <div class="card-body">
+        <img [src]="company.company.imageProfile" alt="Company Image" class="company-image">
+        <h5 class="card-title">{{ company.company.name }}</h5>
+        <p class="card-text"><span style="color: green;">Domaine:</span> <span style="color: red;">{{ company.company.domaine }}</span></p>
+<div class="stars">
+  <!-- Generate filled stars -->
+  <span class="star" *ngFor="let star of [].constructor(round(company.final_score * 5))">★</span>
+  <!-- Generate empty stars -->
+  <span class="star" *ngFor="let star of [].constructor(5 - round(company.final_score * 5))">☆</span>
+</div>
+      </div>
+    </div>
+  </div>
+</div>

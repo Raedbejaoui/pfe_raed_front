@@ -160,14 +160,26 @@
           <input type="text" class="form-control" id="phoneInput" placeholder="Enter your phone" formControlName="phone">
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="mb-3">
-          <label for="adresseInput" class="form-label
-          ">Addresse</label>
-          <input type="text" class="form-control" id="adresseInput" placeholder="Enter your addresse" formControlName="adresse">
-        </div>
+      <select class="form-control" formControlName="domaine">
+        <option *ngFor="let domain of domains" [value]="domain">{{domain}}</option>
+      </select>
+      <div class="mb-3">
+  <label for="descriptionInput" class="form-label">Description</label>
+  <input type="text" class="form-control" id="descriptionInput" placeholder="Enter your description" formControlName="description">
+</div>
+
+<div class="mb-3">
+  <label for="cinInput" class="form-label">CIN</label>
+  <input type="text" class="form-control" id="cinInput" placeholder="Enter your CIN" formControlName="cin">
+</div>
+      <div class="mb-3">
+        <label for="adresseInput" class="form-label">Adresse</label>
+        <input type="text" class="form-control" id="adresseInput" placeholder="Enter your addresse" formControlName="adresse" (focus)="showMap = true">
+        <div *ngIf="showMap" style="height: 300px;" leaflet [leafletOptions]="options" (leafletClick)="onMapClick($event)"></div>
       </div>
+
     </div>
+
     </div>
 
   <div *ngIf="role == 'ROLE_ENTREPRISE'">
@@ -202,12 +214,10 @@
           <input type="text" class="form-control" id="phoneInput" placeholder="Enter your phone" formControlName="phone">
         </div>
     </div>
-<div class="col-lg-6">
-      <div class="mb-3">
-        <label for="adresseInput" class="form-label">Addresse</label>
-        <input type="text" class="form-control" id="adresseInput" placeholder="Enter your addresse" formControlName="adresse">
-
-      </div>
+<div class="mb-3">
+  <label for="adresseInput" class="form-label">Adresse</label>
+  <input type="text" class="form-control" id="adresseInput" placeholder="Enter your addresse" formControlName="adresse" (focus)="showMap = true">
+  <div *ngIf="showMap" style="height: 300px;" leaflet [leafletOptions]="options" (leafletClick)="onMapClick($event)"></div>
 </div>
 
 </div>

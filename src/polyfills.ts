@@ -56,3 +56,8 @@ import 'intersection-observer';
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+//# sourceMappingURL=polyfills.js.map (window as any).global = window;
+(window as any).global = window;
+(window as any).process = {
+  env: { DEBUG: undefined },
+};

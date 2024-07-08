@@ -11,8 +11,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { TermConditionsComponent } from './term-conditions/term-conditions.component';
+import {UsersComponent} from "./users/users.component";
 
 const routes: Routes = [
+
+
   {
     path: 'starter',
     component: StarterComponent
@@ -32,6 +35,10 @@ const routes: Routes = [
   {
     path: 'timeline',
     component: TimelineComponent
+  },
+  {
+    path: 'ListeUsers',
+    component: UsersComponent
   },
   {
     path: 'faqs',

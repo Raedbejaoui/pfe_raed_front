@@ -2,53 +2,53 @@
 .progress {
     height: 10px;
   }
-  
+
   .progress-bar {
     background-color: #578fce;
   }
-  
- 
+
+
   .dropzone-container {
     position: relative;
     overflow: hidden;
   }
-  
+
   .dropzone {
     display: block;
     width: 100%;
-    height: 150px; 
+    height: 150px;
     border: 2px dashed #ccc;
     border-radius: 8px;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.3s ease;
   }
-  
+
   .upload-text {
     display: block;
     padding: 40px 0;
     font-size: 16px;
     color: #555;
   }
-  
+
   .dropzone:hover {
     border-color: #007bff;
   }
-  
-  
+
+
   .uploaded-image {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   .uploaded-image img {
     max-width: 50%;
-    max-height: 50px; 
+    max-height: 50px;
     border-radius: 8px;
   }
-  
+
   .uploaded-image button {
     position: absolute;
     bottom: 10px;
@@ -58,17 +58,27 @@
     display: flex;
     align-items: center;
   }
-  
+
   .uploaded-image-left {
-    margin-right: 10px; 
+    margin-right: 10px;
   }
-  
+
   .uploaded-image-right {
-    flex-grow: 1; 
+    flex-grow: 1;
     text-align: right;
   }
-  
+
   .uploaded-image p {
-    margin-bottom: 5px; 
+    margin-bottom: 5px;
   }
-  
+.text-warning {
+  color: yellow;
+}
+
+.text-success {
+  color: green;
+}
+
+.text-danger {
+  color: red;
+}

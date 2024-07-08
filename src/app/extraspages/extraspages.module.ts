@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+
 // Page Route
 import { ExtrapagesRoutingModule } from './extraspages-routing.module';
-
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 // Component
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { ComingSoonComponent } from './coming-soon/coming-soon.component';
@@ -12,10 +13,12 @@ import { ComingSoonComponent } from './coming-soon/coming-soon.component';
   declarations: [
     MaintenanceComponent,
     ComingSoonComponent
+    // Removed ProfileSettingsComponent from here
   ],
   imports: [
     CommonModule,
-    ExtrapagesRoutingModule
+    ExtrapagesRoutingModule,
+    LeafletModule
   ]
 })
 export class ExtraspagesModule { }

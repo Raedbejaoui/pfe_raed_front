@@ -1,0 +1,23 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Creation Date</th>
+      <th>Status</th>
+      <th>Deadline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let offre of offers">
+      <td>{{ offre.title }}</td>
+      <td>{{ formatDate(offre.creationDate) }}</td>
+
+      <td [ngClass]="{
+        'text-warning': offre.offerStatus === 'EN_COURS',
+        'text-success': offre.offerStatus === 'ACCEPTED',
+        'text-danger': offre.offerStatus === 'rejected'
+      }">{{ offre.offerStatus }}</td>
+      <td>{{ formatDate(offre.deadline) }}</td>
+    </tr>
+  </tbody>
+</table>
